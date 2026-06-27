@@ -12,7 +12,7 @@ function updateClock() {
 
 async function startApp() {
   await requireUser("login.html");
-  setupLogout("logoutBtn");
+  setupLogout("logoutBtn", "login.html");
 
   updateClock();
   setInterval(updateClock, 1000);
