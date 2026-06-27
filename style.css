@@ -359,5 +359,161 @@ button:hover {
 
   .actions {
     display: grid;
+ .hidden {
+  display: none;
+}
+
+.feature-panel {
+  margin-top: 24px;
+  background: var(--white);
+  border: 1px solid var(--ink);
+  border-radius: 34px;
+  padding: 28px;
+  box-shadow: 8px 8px 0 var(--turquoise);
+}
+
+.feature-header h2 {
+  font-size: clamp(2.2rem, 7vw, 5rem);
+  line-height: 0.85;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.desire-form {
+  display: grid;
+  grid-template-columns: 1fr 180px auto;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.desire-form input,
+.desire-form select {
+  width: 100%;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 14px 16px;
+  background: var(--cream);
+  font: inherit;
+  font-weight: 800;
+}
+
+.desire-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+
+.desire-stats div {
+  min-width: 140px;
+  background: var(--pink-soft);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 12px 18px;
+  box-shadow: 4px 4px 0 var(--pink);
+}
+
+.desire-stats span {
+  display: block;
+  font-weight: 900;
+}
+
+.desire-stats small {
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.pearl-list {
+  display: grid;
+  gap: 14px;
+}
+
+.pearl {
+  display: grid;
+  gap: 12px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 34%),
+    linear-gradient(135deg, #ffffff, #fff0f8, #e9fbff);
+  border: 1px solid var(--ink);
+  border-radius: 28px;
+  padding: 18px;
+  box-shadow: 5px 5px 0 var(--pink);
+}
+
+.pearl-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pearl-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.pearl-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pearl-badge {
+  width: fit-content;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: var(--cream);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.pearl-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pearl-controls select {
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 12px 14px;
+  background: var(--cream);
+  font-weight: 900;
+}
+
+.pearl-delete {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.empty-state {
+  border: 1px dashed var(--ink);
+  border-radius: 28px;
+  padding: 24px;
+  background: var(--cream);
+  font-weight: 800;
+}
+
+@media (max-width: 800px) {
+  .desire-form {
+    grid-template-columns: 1fr;
+  }
+
+  .pearl-top,
+  .pearl-controls {
+    display: grid;
   }
 }
+
+
+
+
+
+
+
+
+
+
