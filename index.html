@@ -7,56 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main id="authScreen" class="app auth-screen">
-    <section class="hero">
-      <p class="eyebrow">your island is waiting</p>
-      <h1>the inevitability island</h1>
-      <p class="subtitle">sign in to save your desires, proof, rituals, goals, and future self letters.</p>
-
-      <div class="login-box">
-        <input id="email" type="email" placeholder="email" />
-        <input id="password" type="password" placeholder="password" />
-
-        <button id="loginBtn">sign in</button>
-        <button id="signupBtn" class="secondary">create account</button>
-
-        <p id="authMessage"></p>
-      </div>
-    </section>
-  </main>
-
-  <main id="appScreen" class="app hidden">
-    <div class="top-bar">
-      <button id="logoutBtn" class="secondary">log out</button>
-    </div>
-
-    <header class="hero">
-      <p class="eyebrow">future self operating system</p>
-      <h1>the inevitability island</h1>
-      <p class="subtitle">choose a place. enter the room. make the future feel familiar.</p>
-
-      <div class="stats">
-        <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span id="currentRoomLabel">island</span><small>you are here</small></div>
-      </div>
-    </header>
-
-    <section id="islandView" class="island-map">
-      <button class="place lagoon" data-room="desires">🐚<span>desire lagoon</span></button>
-      <button class="place reef" data-room="proof">🐠<span>proof reef</span></button>
-      <button class="place library" data-room="oracle">📖<span>oracle library</span></button>
-      <button class="place island" data-room="identity">🌴<span>identity island</span></button>
-      <button class="place cave" data-room="ritual">🪸<span>ritual cave</span></button>
-      <button class="place lighthouse" data-room="future">⭐<span>future lighthouse</span></button>
-      <button class="place garden" data-room="abundance">🌺<span>abundance garden</span></button>
-
-      <div class="ocean">🌊 🌊 🌊 🌊 🌊</div>
-    </section>
-
-    <section id="roomView" class="room hidden"></section>
-
-    <p class="hint">click a location to enter your world.</p>
-  </main>
+  <main id="app"></main>
 
   <script type="module" src="main.js"></script>
 </body>
