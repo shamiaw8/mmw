@@ -1,3 +1,5 @@
+import { requireUser, setupLogout } from "./auth-guard.js";
+
 function updateClock() {
   const clock = document.getElementById("clock");
   if (!clock) return;
@@ -8,18 +10,9 @@ function updateClock() {
   });
 }
 
-function save(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function load(key, fallback) {
-  const saved = localStorage.getItem(key);
-  return saved ? JSON.parse(saved) : fallback;
-}
-
-function randomFrom(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
+await requireUser("login.html");
+setupLogout();
 
 updateClock();
 setInterval(updateClock, 1000);
+
