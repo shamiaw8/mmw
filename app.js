@@ -4,41 +4,49 @@ const $$ = (selector) => document.querySelectorAll(selector);
 const places = {
   "mermaid home": {
     title: "mermaid home",
+    focus: "home",
     description:
       "welcome back to your world. this is your soft landing place before choosing where your energy wants to go."
   },
   "identity island": {
     title: "identity island",
+    focus: "identity",
     description:
       "build the version of you who already has it. this is where your standards, self-concept, and daily embodiment live."
   },
   "desire lagoon": {
     title: "desire lagoon",
+    focus: "desires",
     description:
-      "drop every desire here like a pearl. each pearl can have a realm, status, and tiny little main-character folder energy."
+      "drop every desire here like a pearl. each desire gets a realm, a status, and a future-self note."
   },
   "proof reef": {
     title: "proof reef",
+    focus: "proof",
     description:
       "collect evidence that your world is responding. small signs, big wins, synchronicities, compliments, opportunities, all of it."
   },
   "ritual cave": {
     title: "ritual cave",
+    focus: "ritual",
     description:
       "your daily practice lives here: affirm, script, act, release, and return to the end."
   },
   "future lighthouse": {
     title: "future lighthouse",
+    focus: "future",
     description:
       "write letters to your future self, set long-range visions, and let the lighthouse remind you where you are going."
   },
   "abundance garden": {
     title: "abundance garden",
+    focus: "abundance",
     description:
-      "plant money, career, creativity, beauty, love, health, and home goals here."
+      "plant money, career, creativity, beauty, love, health, and home goals here. water them with action and attention."
   },
   "oracle library": {
     title: "oracle library",
+    focus: "oracle",
     description:
       "a library of prompts, transmissions, affirmations, and daily cards for whatever realm you are manifesting."
   }
@@ -55,7 +63,7 @@ const oracles = [
   "your future self is not impressed by fear. she is amused, then she gets dressed."
 ];
 
-const statuses = ["chosen", "unfolding", "embodied", "received"];
+const desireStatuses = ["chosen", "unfolding", "embodied", "received"];
 
 function save(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
@@ -64,6 +72,10 @@ function save(key, value) {
 function load(key, fallback) {
   const saved = localStorage.getItem(key);
   return saved ? JSON.parse(saved) : fallback;
+}
+
+function todayString() {
+  return new Date().toLocaleDateString();
 }
 
 function updateClock() {
@@ -78,18 +90,14 @@ function setPlace(placeName) {
 
   $("#placeTitle").textContent = place.title;
   $("#placeDescription").textContent = place.description;
-  $("#focusRealm").textContent = place.title.split(" ")[0];
+  $("#focusRealm").textContent = place.focus;
 
   $$(".location").forEach((button) => {
     button.classList.toggle("active", button.dataset.place === placeName);
   });
 
-  const desirePanel = $("#desireLagoonApp");
-  if (placeName === "desire lagoon") {
-    desirePanel.classList.remove("hidden");
-  } else {
-    desirePanel.classList.add("hidden");
-  }
+  $("#desireSection").classList.toggle("hidden", placeName !== "desire lagoon");
+  $("#proofSection").classList.toggle("hidden", placeName !== "proof reef");
 
   save("current-place", placeName);
 }
@@ -113,75 +121,77 @@ function setupMap() {
   setPlace(load("current-place", "mermaid home"));
 }
 
-function getDesires() {
-  return load("mmw-desires", []);
-}
-
-function setDesires(desires) {
-  save("mmw-desires", desires);
-}
+/* v0.2 desire lagoon */
 
 function renderDesires() {
-  const desires = getDesires();
+  const desires = load("mmw-desires", []);
   const list = $("#desireList");
-
   list.innerHTML = "";
-
-  $("#desireCount").textContent = desires.length;
-  $("#receivedCount").textContent = desires.filter((d) => d.status === "received").length;
-  $("#embodiedCount").textContent = desires.filter((d) => d.status === "embodied").length;
 
   if (desires.length === 0) {
     list.innerHTML = `
       <div class="empty-state">
-        no pearls yet. add your first desire and let the lagoon get nosy.
+        no pearls in the lagoon yet. add your first desire.
       </div>
     `;
     return;
   }
 
   desires.forEach((desire, index) => {
-    const pearl = document.createElement("article");
-    pearl.className = "pearl";
+    const card = document.createElement("article");
+    card.className = "list-card";
 
-    pearl.innerHTML = `
-      <div class="pearl-top">
-        <div>
-          <div class="pearl-title">🐚 ${desire.text}</div>
-          <div class="pearl-meta">
-            <span class="pearl-badge">realm: ${desire.realm}</span>
-            <span class="pearl-badge">status: ${desire.status}</span>
-            <span class="pearl-badge">added: ${desire.date}</span>
-          </div>
-        </div>
-        <button class="pearl-delete">delete</button>
+    card.innerHTML = `
+      <div class="list-top">
+        <strong>${desire.text}</strong>
+        <button class="small-btn delete-btn">delete</button>
       </div>
 
-      <div class="pearl-controls">
-        <select class="status-select">
-          ${statuses
-            .map(
-              (status) =>
-                `<option value="${status}" ${status === desire.status ? "selected" : ""}>${status}</option>`
-            )
-            .join("")}
-        </select>
+      <div class="meta-row">
+        <span class="badge">${desire.realm}</span>
+        <span class="badge">${desire.date}</span>
+      </div>
+
+      <select class="status-select">
+        ${desireStatuses
+          .map(
+            (status) =>
+              `<option value="${status}" ${status === desire.status ? "selected" : ""}>${status}</option>`
+          )
+          .join("")}
+      </select>
+
+      <textarea class="card-note" placeholder="future-self note...">${desire.note || ""}</textarea>
+
+      <div class="mini-actions">
+        <button class="small-btn received-btn">mark received</button>
       </div>
     `;
 
-    pearl.querySelector(".status-select").addEventListener("change", (event) => {
+    card.querySelector(".status-select").addEventListener("change", (event) => {
       desires[index].status = event.target.value;
-      setDesires(desires);
+      save("mmw-desires", desires);
       renderDesires();
     });
 
-    pearl.querySelector(".pearl-delete").addEventListener("click", () => {
+    card.querySelector(".card-note").addEventListener("input", (event) => {
+      desires[index].note = event.target.value;
+      save("mmw-desires", desires);
+    });
+
+    card.querySelector(".received-btn").addEventListener("click", () => {
+      desires[index].status = "received";
+      save("mmw-desires", desires);
+      renderDesires();
+    });
+
+    card.querySelector(".delete-btn").addEventListener("click", () => {
       desires.splice(index, 1);
-      setDesires(desires);
+      save("mmw-desires", desires);
       renderDesires();
     });
 
-    list.appendChild(pearl);
+    list.appendChild(card);
   });
 }
 
@@ -193,27 +203,94 @@ function setupDesireLagoon() {
 
     if (!text) return;
 
-    const desires = getDesires();
+    const desires = load("mmw-desires", []);
 
     desires.unshift({
       text,
       realm,
       status: "chosen",
-      date: new Date().toLocaleDateString()
+      date: todayString(),
+      note: ""
     });
 
-    setDesires(desires);
+    save("mmw-desires", desires);
     input.value = "";
     renderDesires();
   });
 
-  $("#desireInput").addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      $("#addDesire").click();
-    }
+  renderDesires();
+}
+
+/* v0.3 proof reef */
+
+function renderProofs() {
+  const proofs = load("mmw-proofs", []);
+  const list = $("#proofList");
+  list.innerHTML = "";
+
+  const today = todayString();
+  const todayProofs = proofs.filter((proof) => proof.date === today);
+
+  $("#proofTotal").textContent = proofs.length;
+  $("#proofToday").textContent = todayProofs.length;
+
+  if (proofs.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        proof reef is empty. log the first little wink from reality.
+      </div>
+    `;
+    return;
+  }
+
+  proofs.forEach((proof, index) => {
+    const card = document.createElement("article");
+    card.className = "list-card";
+
+    card.innerHTML = `
+      <div class="list-top">
+        <strong>${proof.text}</strong>
+        <button class="small-btn delete-btn">delete</button>
+      </div>
+
+      <div class="meta-row">
+        <span class="badge">${proof.category}</span>
+        <span class="badge">${proof.date}</span>
+      </div>
+    `;
+
+    card.querySelector(".delete-btn").addEventListener("click", () => {
+      proofs.splice(index, 1);
+      save("mmw-proofs", proofs);
+      renderProofs();
+    });
+
+    list.appendChild(card);
+  });
+}
+
+function setupProofReef() {
+  $("#addProof").addEventListener("click", () => {
+    const input = $("#proofInput");
+    const category = $("#proofCategory").value;
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const proofs = load("mmw-proofs", []);
+
+    proofs.unshift({
+      text,
+      category,
+      date: todayString()
+    });
+
+    save("mmw-proofs", proofs);
+    input.value = "";
+    renderProofs();
   });
 
-  renderDesires();
+  renderProofs();
 }
 
 updateClock();
@@ -221,3 +298,4 @@ setInterval(updateClock, 1000);
 
 setupMap();
 setupDesireLagoon();
+setupProofReef();
