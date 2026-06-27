@@ -541,54 +541,6 @@ body:has(title)::before {
   margin-bottom: 16px;
 }
 
-.water-transition {
-  position: fixed;
-  left: 0;
-  top: 100vh;
-  width: 100vw;
-  height: 120vh;
-  z-index: 9999;
-  pointer-events: none;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-}
-
-.water-wave {
-  width: 100%;
-  height: 130px;
-  order: 1;
-  transform: translateY(5px);
-}
-
-.water-body {
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.35), transparent 18%),
-    linear-gradient(180deg, #55d6d6, #2fb8c8);
-  order: 2;
-}
-
-.water-transition.fill-page {
-  transform: translateY(-120vh);
-}
-
-.water-transition.drain-page {
-  animation: drainWater 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes drainWater {
-  0% {
-    transform: translateY(-120vh);
-  }
-
-  100% {
-    transform: translateY(-240vh);
-  }
-}
-
-
 /* responsive */
 
 @media (max-width: 800px) {
