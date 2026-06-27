@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>desire lagoon</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="room">
+      <a class="back-link" href="../index.html">← back to island</a>
+      <h1 class="room-title">🐚 desire lagoon</h1>
+      <p>drop each desire here like a pearl. chosen, unfolding, embodied, received.</p>
+
+      <div class="input-row">
+        <input id="desireInput" placeholder="add a desire..." />
+        <select id="desireRealm">
+          <option>love</option>
+          <option>money</option>
+          <option>career</option>
+          <option>beauty</option>
+          <option>body</option>
+          <option>home</option>
+        </select>
+        <button id="addDesire">add pearl</button>
+      </div>
+
+      <div id="desireList" class="cards-list"></div>
+    </section>
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    const statuses = ["chosen", "unfolding", "embodied", "received"];
+
+    function save(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function load(key, fallback) {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : fallback;
+    }
+
+    function renderDesires() {
+      const desires = load("desires", []);
+      const list = document.getElementById("desireList");
+      list.innerHTML = "";
+
+      if (!desires.length) {
+        list.innerHTML = `<article class="card">no pearls yet. add the first one.</article>`;
+        return;
+      }
+
+      desires.forEach((desire, index) => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>🐚 ${desire.text}</h3>
+          <span class="badge">${desire.realm}</span>
+          <span class="badge">${desire.status}</span>
+          <span class="badge">${desire.date}</span>
+
+          <select>
+            ${statuses.map(status => `
+              <option ${status === desire.status ? "selected" : ""}>${status}</option>
+            `).join("")}
+          </select>
+
+          <button class="delete">delete</button>
+        `;
+
+        card.querySelector("select").addEventListener("change", event => {
+          desires[index].status = event.target.value;
+          save("desires", desires);
+          renderDesires();
+        });
+
+        card.querySelector(".delete").addEventListener("click", () => {
+          desires.splice(index, 1);
+          save("desires", desires);
+          renderDesires();
+        });
+
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById("addDesire").addEventListener("click", () => {
+      const input = document.getElementById("desireInput");
+      const realm = document.getElementById("desireRealm");
+
+      if (!input.value.trim()) return;
+
+      const desires = load("desires", []);
+      desires.unshift({
+        text: input.value.trim(),
+        realm: realm.value,
+        status: "chosen",
+        date: new Date().toLocaleDateString()
+      });
+
+      save("desires", desires);
+      input.value = "";
+      renderDesires();
+    });
+
+    renderDesires();
+  </script>
+</body>
+</html>
+
