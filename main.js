@@ -10,12 +10,12 @@ function updateClock() {
   });
 }
 
-try {
+async function startApp() {
   await requireUser("login.html");
   setupLogout();
 
   updateClock();
   setInterval(updateClock, 1000);
-} catch (error) {
-  console.error("mmw startup error:", error);
 }
+
+startApp();
