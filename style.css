@@ -2,56 +2,71 @@
   box-sizing: border-box;
 }
 
+:root {
+  --ink: #171717;
+  --cream: #fffaf4;
+  --sand: #f7eadc;
+  --pink: #ff3fa4;
+  --pink-soft: #ffe6f3;
+  --aqua: #dffbff;
+  --turquoise: #55d6d6;
+  --bronze: #b26b35;
+  --white: #ffffff;
+}
+
 body {
   margin: 0;
   font-family: arial, helvetica, sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(255, 63, 164, 0.18), transparent 30%),
-    linear-gradient(135deg, #fffaf4, #fff0f8, #e8fbff);
-  color: #171717;
+    radial-gradient(circle at top left, rgba(255, 63, 164, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(85, 214, 214, 0.18), transparent 30%),
+    linear-gradient(135deg, var(--cream), #fff0f8, var(--aqua));
+  color: var(--ink);
   min-height: 100vh;
 }
 
 .app {
   width: min(1180px, 92%);
   margin: auto;
-  padding: 34px 0;
+  padding: 28px 0 42px;
 }
 
 .hero {
-  min-height: 48vh;
-  border: 1px solid #171717;
+  min-height: 34vh;
+  border: 1px solid var(--ink);
   border-radius: 38px;
-  padding: 42px 24px;
+  padding: 34px 24px;
   text-align: center;
   background:
-    linear-gradient(rgba(255, 250, 244, 0.38), rgba(255, 250, 244, 0.78)),
+    linear-gradient(rgba(255, 250, 244, 0.34), rgba(255, 250, 244, 0.82)),
     url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
   background-size: cover;
   background-position: center;
-  box-shadow: 10px 10px 0 #ff3fa4;
+  box-shadow: 8px 8px 0 var(--pink);
 }
 
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 4px;
-  color: #ff3fa4;
-  font-size: 0.8rem;
+  color: var(--pink);
+  font-size: 0.78rem;
   font-weight: 900;
+  margin: 0;
 }
 
 h1 {
-  font-size: clamp(3.3rem, 11vw, 8rem);
-  line-height: 0.78;
-  letter-spacing: -6px;
+  font-size: clamp(2.8rem, 8vw, 5.8rem);
+  line-height: 0.9;
+  letter-spacing: -3px;
   text-transform: uppercase;
-  margin: 14px 0;
+  margin: 16px 0;
 }
 
 .subtitle {
   max-width: 620px;
   margin: auto;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
 .stats {
@@ -59,16 +74,16 @@ h1 {
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .stats div {
   min-width: 135px;
-  background: #fffaf4;
-  border: 1px solid #171717;
+  background: var(--cream);
+  border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 12px 18px;
-  box-shadow: 4px 4px 0 #ff3fa4;
+  box-shadow: 4px 4px 0 var(--pink);
 }
 
 .stats span {
@@ -98,34 +113,34 @@ textarea {
 
 button,
 select {
-  border: 1px solid #171717;
+  border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 13px 16px;
   font-weight: 900;
-  background: white;
+  background: var(--white);
   cursor: pointer;
 }
 
 button {
-  background: #ff3fa4;
-  color: white;
+  background: var(--pink);
+  color: var(--white);
   text-transform: uppercase;
 }
 
 button:hover {
   transform: translatey(-2px);
-  box-shadow: 4px 4px 0 #171717;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
 .tab {
   white-space: nowrap;
-  color: #171717;
-  background: white;
+  color: var(--ink);
+  background: var(--white);
 }
 
 .tab.active {
-  background: #171717;
-  color: white;
+  background: var(--ink);
+  color: var(--white);
 }
 
 .page {
@@ -141,15 +156,16 @@ button:hover {
   margin-top: 0;
   text-transform: uppercase;
   letter-spacing: -1px;
-  line-height: 0.9;
+  line-height: 0.95;
 }
 
 .page-title {
-  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-size: clamp(2.2rem, 7vw, 4.8rem);
+  margin-bottom: 18px;
 }
 
 .card h2 {
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 4vw, 2rem);
 }
 
 .grid {
@@ -159,52 +175,60 @@ button:hover {
 }
 
 .card {
-  background: white;
-  border: 1px solid #171717;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--ink);
   border-radius: 30px;
   padding: 24px;
-  min-height: 260px;
-  box-shadow: 8px 8px 0 #ff3fa4;
+  min-height: 220px;
+  box-shadow: 7px 7px 0 var(--pink);
+  backdrop-filter: blur(10px);
 }
 
 .shell-card {
   background:
-    linear-gradient(rgba(255,255,255,0.84), rgba(255,255,255,0.84)),
+    linear-gradient(rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
     repeating-radial-gradient(
       circle at top left,
-      #ffe6f3 0,
-      #ffe6f3 8px,
-      #ffffff 8px,
-      #ffffff 18px
+      var(--pink-soft) 0,
+      var(--pink-soft) 8px,
+      var(--white) 8px,
+      var(--white) 18px
     );
 }
 
 label {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin: 12px 0;
+  gap: 16px;
+  margin: 14px 0;
   text-transform: uppercase;
   font-weight: 900;
+  line-height: 1.2;
 }
 
 input[type="checkbox"] {
-  accent-color: #ff3fa4;
-  transform: scale(1.25);
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  accent-color: var(--pink);
+  transform: none;
 }
 
 input,
 textarea {
   width: 100%;
-  border: 1px solid #171717;
+  border: 1px solid var(--ink);
   border-radius: 22px;
   padding: 14px;
   margin: 8px 0;
-  background: #fffaf4;
+  background: var(--cream);
 }
 
 textarea {
-  min-height: 160px;
+  min-height: 150px;
   resize: vertical;
+  line-height: 1.45;
 }
 
 .input-row {
@@ -220,11 +244,11 @@ textarea {
 }
 
 .list-item {
-  background: white;
-  border: 1px solid #171717;
+  background: var(--white);
+  border: 1px solid var(--ink);
   border-radius: 24px;
   padding: 16px;
-  box-shadow: 4px 4px 0 #ff3fa4;
+  box-shadow: 4px 4px 0 var(--pink);
   display: grid;
   gap: 10px;
 }
@@ -237,10 +261,10 @@ textarea {
 
 .badge {
   display: inline-block;
-  border: 1px solid #171717;
+  border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 8px 12px;
-  background: #fffaf4;
+  background: var(--cream);
   font-size: 0.8rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -248,21 +272,41 @@ textarea {
 
 .delete {
   width: fit-content;
-  background: #171717;
-  color: white;
+  background: var(--ink);
+  color: var(--white);
 }
 
 ::selection {
-  background: #ff3fa4;
-  color: white;
+  background: var(--pink);
+  color: var(--white);
 }
 
 @media (max-width: 720px) {
+  .app {
+    width: min(100% - 24px, 1180px);
+    padding-top: 18px;
+  }
+
+  .hero {
+    border-radius: 28px;
+    padding: 28px 18px;
+  }
+
   h1 {
-    letter-spacing: -3px;
+    font-size: clamp(2.4rem, 14vw, 4rem);
+    letter-spacing: -2px;
   }
 
   .input-row {
     grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: auto;
+    border-radius: 24px;
+  }
+
+  .stats div {
+    min-width: 110px;
   }
 }
