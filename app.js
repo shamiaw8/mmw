@@ -1,25 +1,59 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
-const transmissions = [
-  "your future self is not far away. she is installed through repetition.",
-  "nothing is random. even your discipline is flirting with destiny.",
-  "the desire picked you because you are available for the upgrade.",
-  "act like the version of you who already has the evidence.",
-  "you are not forcing it. you are becoming the place where it lands.",
-  "make your future feel familiar today."
-];
+const places = {
+  "mermaid home": {
+    title: "mermaid home",
+    description:
+      "welcome back to your world. this is your soft landing place before choosing where your energy wants to go."
+  },
+  "identity island": {
+    title: "identity island",
+    description:
+      "build the version of you who already has it. this is where your standards, self-concept, and daily embodiment live."
+  },
+  "desire lagoon": {
+    title: "desire lagoon",
+    description:
+      "drop every desire here like a pearl. later, each desire will get its own vault, status, timeline, and proof log."
+  },
+  "proof reef": {
+    title: "proof reef",
+    description:
+      "collect evidence that your world is responding. small signs, big wins, synchronicities, compliments, opportunities, all of it."
+  },
+  "ritual cave": {
+    title: "ritual cave",
+    description:
+      "your daily practice lives here: affirm, script, act, release, and return to the end. very mystical. very organized."
+  },
+  "future lighthouse": {
+    title: "future lighthouse",
+    description:
+      "write letters to your future self, set long-range visions, and let the lighthouse remind you where you are going."
+  },
+  "abundance garden": {
+    title: "abundance garden",
+    description:
+      "plant money, career, creativity, beauty, love, health, and home goals here. water them with action and attention."
+  },
+  "oracle library": {
+    title: "oracle library",
+    description:
+      "a library of prompts, transmissions, affirmations, and daily cards for whatever realm you are manifesting."
+  }
+};
 
-const identityStatements = [
-  "i am already becoming undeniable.",
-  "i am the version of me who receives with ease.",
-  "i move like the outcome is already handled.",
-  "i do not chase. i embody and attract.",
-  "i am safe to become visible, chosen, wealthy, loved, and free.",
-  "my standards are the doorway to my dream life."
+const oracles = [
+  "today’s tide says: stop checking. start becoming.",
+  "your next level does not need panic. it needs repetition.",
+  "you are not behind. you are being arranged.",
+  "make one tiny choice today that proves the dream is normal.",
+  "the sign is not the point. your embodiment is the portal.",
+  "high tide: choose confidence before evidence.",
+  "soft tide: rest is still part of the ritual.",
+  "your future self is not impressed by fear. she is amused, then she gets dressed."
 ];
-
-const statuses = ["chosen", "unfolding", "embodied", "received"];
 
 function save(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
@@ -30,10 +64,6 @@ function load(key, fallback) {
   return saved ? JSON.parse(saved) : fallback;
 }
 
-function randomFrom(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
 function updateClock() {
   $("#clock").textContent = new Date().toLocaleTimeString([], {
     hour: "2-digit",
@@ -41,200 +71,39 @@ function updateClock() {
   });
 }
 
-function setupTabs() {
-  $$(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      $$(".tab").forEach((button) => button.classList.remove("active"));
-      $$(".page").forEach((page) => page.classList.remove("active"));
+function setPlace(placeName) {
+  const place = places[placeName];
 
-      tab.classList.add("active");
-      $(`#${tab.dataset.tab}`).classList.add("active");
-    });
+  $("#placeTitle").textContent = place.title;
+  $("#placeDescription").textContent = place.description;
+  $("#focusRealm").textContent = place.title.split(" ")[0];
+
+  $$(".location").forEach((button) => {
+    button.classList.toggle("active", button.dataset.place === placeName);
   });
+
+  save("current-place", placeName);
 }
 
-function setupHome() {
-  $("#newTransmission").addEventListener("click", () => {
-    $("#transmission").textContent = randomFrom(transmissions);
-  });
-
-  const realm = $("#realm");
-  realm.value = load("realm", "love");
-  $("#realmText").textContent = `current realm: ${realm.value}`;
-
-  realm.addEventListener("change", () => {
-    save("realm", realm.value);
-    $("#realmText").textContent = `current realm: ${realm.value}`;
-  });
-
-  const savedAlign = load("alignment", []);
-
-  $$(".align").forEach((box, index) => {
-    box.checked = savedAlign[index] || false;
-
-    box.addEventListener("change", () => {
-      const values = [...$$(".align")].map((item) => item.checked);
-      save("alignment", values);
-      updateAlignment();
+function setupMap() {
+  $$(".location").forEach((button) => {
+    button.addEventListener("click", () => {
+      setPlace(button.dataset.place);
     });
   });
 
-  const oceanNote = $("#oceanNote");
-  oceanNote.value = load("ocean-note", "");
-  oceanNote.addEventListener("input", () => save("ocean-note", oceanNote.value));
-
-  updateAlignment();
-}
-
-function updateAlignment() {
-  const boxes = [...$$(".align")];
-  const checked = boxes.filter((box) => box.checked).length;
-  const percent = Math.round((checked / boxes.length) * 100);
-  $("#score").textContent = `${percent}%`;
-}
-
-function setupIdentity() {
-  $("#identityButton").addEventListener("click", () => {
-    $("#identityStatement").textContent = randomFrom(identityStatements);
+  $("#resetPlace").addEventListener("click", () => {
+    setPlace("mermaid home");
   });
 
-  ["identityInput", "standardsInput"].forEach((id) => {
-    const element = $(`#${id}`);
-    element.value = load(id, "");
-    element.addEventListener("input", () => save(id, element.value));
-  });
-}
-
-function renderDesires() {
-  const desires = load("desires", []);
-  const list = $("#desireList");
-  list.innerHTML = "";
-
-  desires.forEach((desire, index) => {
-    const item = document.createElement("div");
-    item.className = "list-item";
-
-    item.innerHTML = `
-      <div class="list-top">
-        <strong>${desire.text}</strong>
-        <button class="delete">x</button>
-      </div>
-
-      <span class="badge">status: ${desire.status}</span>
-
-      <select>
-        ${statuses.map((status) => `
-          <option ${status === desire.status ? "selected" : ""}>${status}</option>
-        `).join("")}
-      </select>
-    `;
-
-    item.querySelector("select").addEventListener("change", (event) => {
-      desires[index].status = event.target.value;
-      save("desires", desires);
-      renderDesires();
-    });
-
-    item.querySelector(".delete").addEventListener("click", () => {
-      desires.splice(index, 1);
-      save("desires", desires);
-      renderDesires();
-    });
-
-    list.appendChild(item);
-  });
-}
-
-function setupDesires() {
-  $("#addDesire").addEventListener("click", () => {
-    const input = $("#desireInput");
-    const text = input.value.trim();
-
-    if (!text) return;
-
-    const desires = load("desires", []);
-    desires.unshift({
-      text,
-      status: "chosen"
-    });
-
-    save("desires", desires);
-    input.value = "";
-    renderDesires();
+  $("#dailyOracle").addEventListener("click", () => {
+    const random = Math.floor(Math.random() * oracles.length);
+    $("#oracleText").textContent = oracles[random];
   });
 
-  renderDesires();
-}
-
-function setupRitual() {
-  ["affirmText", "scriptText", "actText", "releaseText"].forEach((id) => {
-    const element = $(`#${id}`);
-    element.value = load(id, "");
-    element.addEventListener("input", () => save(id, element.value));
-  });
-}
-
-function renderProofs() {
-  const proofs = load("proofs", []);
-  const list = $("#proofList");
-  list.innerHTML = "";
-
-  $("#proofCount").textContent = proofs.length;
-
-  proofs.forEach((proof, index) => {
-    const item = document.createElement("div");
-    item.className = "list-item";
-
-    item.innerHTML = `
-      <div class="list-top">
-        <span>${proof}</span>
-        <button class="delete">x</button>
-      </div>
-    `;
-
-    item.querySelector(".delete").addEventListener("click", () => {
-      proofs.splice(index, 1);
-      save("proofs", proofs);
-      renderProofs();
-    });
-
-    list.appendChild(item);
-  });
-}
-
-function setupProofLog() {
-  $("#addProof").addEventListener("click", () => {
-    const input = $("#proofInput");
-    const text = input.value.trim();
-
-    if (!text) return;
-
-    const proofs = load("proofs", []);
-    proofs.unshift(text);
-    save("proofs", proofs);
-
-    input.value = "";
-    renderProofs();
-  });
-
-  renderProofs();
-}
-
-function setupReview() {
-  ["sexierText", "fitsText", "inevitableText"].forEach((id) => {
-    const element = $(`#${id}`);
-    element.value = load(id, "");
-    element.addEventListener("input", () => save(id, element.value));
-  });
+  setPlace(load("current-place", "mermaid home"));
 }
 
 updateClock();
 setInterval(updateClock, 1000);
-
-setupTabs();
-setupHome();
-setupIdentity();
-setupDesires();
-setupRitual();
-setupProofLog();
-setupReview();
+setupMap();
