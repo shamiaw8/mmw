@@ -7,6 +7,8 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  setDoc,
+  getDoc,
   serverTimestamp,
   query,
   orderBy
@@ -48,6 +50,10 @@ function userCollection(name) {
   return collection(db, "users", currentUser.uid, name);
 }
 
+function userDoc(collectionName, docName) {
+  return doc(db, "users", currentUser.uid, collectionName, docName);
+}
+
 async function getUserDocs(name) {
   const q = query(userCollection(name), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
@@ -63,6 +69,18 @@ async function addUserDoc(name, data) {
 
 async function deleteUserDoc(name, id) {
   await deleteDoc(doc(db, "users", currentUser.uid, name, id));
+}
+
+async function saveJournal(roomName, data) {
+  await setDoc(userDoc("journals", roomName), {
+    ...data,
+    updatedAt: serverTimestamp()
+  });
+}
+
+async function loadJournal(roomName) {
+  const snapshot = await getDoc(userDoc("journals", roomName));
+  return snapshot.exists() ? snapshot.data() : {};
 }
 
 function layout(content) {
@@ -213,27 +231,37 @@ async function renderProof() {
   await draw();
 }
 
-function renderJournalRoom(fields) {
+async function renderJournalRoom(roomName, fields) {
+  const savedData = await loadJournal(roomName);
+
   layout(`
     <div class="journal-grid">
       ${fields.map(([id, title, placeholder]) => `
         <article class="card">
           <h3>${title}</h3>
-          <textarea id="${id}" placeholder="${placeholder}"></textarea>
-          <button data-save="${id}">save</button>
+          <textarea id="${id}" placeholder="${placeholder}">${savedData[id] || ""}</textarea>
         </article>
       `).join("")}
     </div>
+
+    <button id="saveJournalBtn">save ${roomName}</button>
+    <p id="saveMessage" class="save-message"></p>
   `);
 
-  fields.forEach(([id]) => {
-    const textarea = document.getElementById(id);
-    const saved = localStorage.getItem(`${currentUser.uid}-${id}`);
-    textarea.value = saved || "";
+  document.getElementById("saveJournalBtn").addEventListener("click", async () => {
+    const data = {};
 
-    document.querySelector(`[data-save="${id}"]`).addEventListener("click", () => {
-      localStorage.setItem(`${currentUser.uid}-${id}`, textarea.value);
+    fields.forEach(([id]) => {
+      data[id] = document.getElementById(id).value;
     });
+
+    await saveJournal(roomName, data);
+
+    const message = document.getElementById("saveMessage");
+    message.textContent = "saved to your island.";
+    setTimeout(() => {
+      message.textContent = "";
+    }, 2000);
   });
 }
 
@@ -269,22 +297,27 @@ async function render() {
   if (route === "island") renderIsland();
   if (route === "desires") await renderDesires();
   if (route === "proof") await renderProof();
-  if (route === "identity") renderJournalRoom([
+
+  if (route === "identity") await renderJournalRoom("identity", [
     ["identityText", "i am becoming someone who...", "write your new identity..."],
     ["standardsText", "my standards are...", "what no longer gets access?"],
     ["embodyText", "today i embody...", "how does this version move?"]
   ]);
-  if (route === "ritual") renderJournalRoom([
+
+  if (route === "ritual") await renderJournalRoom("ritual", [
     ["affirmText", "affirm", "what is already true?"],
     ["scriptText", "script", "write from the end..."],
     ["releaseText", "release", "what are you done carrying?"]
   ]);
-  if (route === "future") renderJournalRoom([
+
+  if (route === "future") await renderJournalRoom("future", [
     ["futureLetter", "future self letter", "dear future me..."]
   ]);
-  if (route === "garden") renderJournalRoom([
+
+  if (route === "garden") await renderJournalRoom("garden", [
     ["gardenGoals", "abundance garden", "plant your goals here..."]
   ]);
+
   if (route === "oracle") renderOracle();
 }
 
