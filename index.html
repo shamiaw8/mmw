@@ -15,7 +15,7 @@
 
       <div class="stats">
         <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span>v0.2</span><small>desire lagoon</small></div>
+        <div><span>v0.3</span><small>desires + proof</small></div>
         <div><span id="focusRealm">home</span><small>current realm</small></div>
       </div>
     </header>
@@ -37,7 +37,9 @@
     <section class="panel">
       <p class="panel-kicker">you are here</p>
       <h2 id="placeTitle">mermaid home</h2>
-      <p id="placeDescription">welcome back to your world.</p>
+      <p id="placeDescription">
+        welcome back to your world. choose a location on the island to enter a different part of your manifestation practice.
+      </p>
 
       <div class="actions">
         <button id="dailyOracle">pull daily oracle</button>
@@ -47,39 +49,61 @@
       <p id="oracleText" class="oracle">today’s tide is waiting.</p>
     </section>
 
-    <section id="desireLagoonApp" class="feature-panel hidden">
-      <div class="feature-header">
-        <p class="panel-kicker">desire lagoon</p>
-        <h2>drop a pearl</h2>
-        <p>add what you’re manifesting, give it a realm, and track the state it’s currently in.</p>
+    <section id="desireSection" class="feature-section hidden">
+      <div class="section-header">
+        <p class="panel-kicker">v0.2</p>
+        <h2>desire lagoon</h2>
+        <p>drop each desire like a pearl. give it a realm, a status, and a note from the version of you who already has it.</p>
       </div>
 
-      <div class="desire-form">
+      <div class="input-grid">
         <input id="desireInput" placeholder="i am manifesting..." />
-
         <select id="desireRealm">
           <option>love</option>
           <option>money</option>
           <option>career</option>
-          <option>body</option>
           <option>beauty</option>
+          <option>body</option>
           <option>confidence</option>
           <option>creativity</option>
           <option>peace</option>
           <option>home</option>
-          <option>social life</option>
         </select>
-
-        <button id="addDesire">add pearl</button>
+        <button id="addDesire">add desire</button>
       </div>
 
-      <div class="desire-stats">
-        <div><span id="desireCount">0</span><small>total pearls</small></div>
-        <div><span id="receivedCount">0</span><small>received</small></div>
-        <div><span id="embodiedCount">0</span><small>embodied</small></div>
+      <div id="desireList" class="list"></div>
+    </section>
+
+    <section id="proofSection" class="feature-section hidden">
+      <div class="section-header">
+        <p class="panel-kicker">v0.3</p>
+        <h2>proof reef</h2>
+        <p>log every sign, compliment, coincidence, win, opportunity, and tiny reality wink. receipts, your honor.</p>
       </div>
 
-      <div id="desireList" class="pearl-list"></div>
+      <div class="input-grid">
+        <input id="proofInput" placeholder="what showed you it’s working?" />
+        <select id="proofCategory">
+          <option>sign</option>
+          <option>compliment</option>
+          <option>money</option>
+          <option>love</option>
+          <option>career</option>
+          <option>body</option>
+          <option>beauty</option>
+          <option>synchronicity</option>
+          <option>opportunity</option>
+        </select>
+        <button id="addProof">log proof</button>
+      </div>
+
+      <div class="proof-stats">
+        <div><span id="proofTotal">0</span><small>proofs logged</small></div>
+        <div><span id="proofToday">0</span><small>today</small></div>
+      </div>
+
+      <div id="proofList" class="list"></div>
     </section>
   </main>
 
