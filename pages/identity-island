@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>identity island</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="identity-room">
+  <main class="app">
+    <section class="room">
+      <a class="back-link" href="../index.html">← back to island</a>
+      <h1 class="room-title">🌴 identity island</h1>
+      <p>build the version of you who already has it. standards, self-concept, and daily embodiment live here.</p>
+
+      <div class="journal-grid">
+        <article class="card">
+          <h3>i am becoming someone who...</h3>
+          <textarea id="identityText" placeholder="write your new identity here..."></textarea>
+        </article>
+
+        <article class="card">
+          <h3>my standards are...</h3>
+          <textarea id="standardsText" placeholder="what no longer gets access to you?"></textarea>
+        </article>
+
+        <article class="card">
+          <h3>today i embody...</h3>
+          <textarea id="embodyText" placeholder="how does this version move today?"></textarea>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    ["identityText", "standardsText", "embodyText"].forEach((id) => {
+      const element = document.getElementById(id);
+      element.value = load(id, "");
+      element.addEventListener("input", () => save(id, element.value));
+    });
+  </script>
+</body>
+</html>
