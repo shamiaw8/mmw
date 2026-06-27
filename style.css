@@ -13,7 +13,6 @@
   --purple: #d8c7ff;
   --green: #dff7d8;
   --gold: #ffd980;
-  --coral: #ff9c8a;
 }
 
 body {
@@ -31,6 +30,10 @@ body {
   width: min(1180px, 92%);
   margin: auto;
   padding: 28px 0 48px;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .hero,
@@ -101,6 +104,19 @@ h1 {
   font-size: .65rem;
 }
 
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.login-box {
+  display: grid;
+  gap: 12px;
+  width: min(420px, 100%);
+  margin: 28px auto 0;
+}
+
 .island-map {
   position: relative;
   min-height: 650px;
@@ -135,7 +151,6 @@ h1 {
   border-radius: 24px;
   background: rgba(255,250,244,.94);
   color: var(--ink);
-  text-decoration: none;
   font-weight: 900;
   cursor: pointer;
   box-shadow: 5px 5px 0 var(--pink);
@@ -143,7 +158,7 @@ h1 {
 }
 
 .place:hover {
-  transform: translatey(-4px);
+  transform: translateY(-4px);
   box-shadow: 7px 7px 0 var(--ink);
 }
 
@@ -155,423 +170,3 @@ h1 {
 
 .lagoon { top: 54%; left: 14%; }
 .reef { top: 55%; right: 14%; }
-.library { top: 26%; right: 13%; }
-.island { top: 34%; left: 43%; }
-.cave { top: 62%; left: 42%; }
-.lighthouse { top: 7%; left: 54%; }
-.garden { top: 20%; left: 18%; }
-
-.ocean {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  letter-spacing: 8px;
-  opacity: .7;
-}
-
-.hint {
-  text-align: center;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-/* shared room layout */
-
-.room {
-  position: relative;
-  overflow: hidden;
-  margin-top: 28px;
-  padding: 28px;
-  background: rgba(255,255,255,.9);
-}
-
-.room::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .55;
-  z-index: 0;
-}
-
-.room > * {
-  position: relative;
-  z-index: 1;
-}
-
-.room-title {
-  font-size: clamp(2.5rem, 8vw, 5.5rem);
-  line-height: .85;
-  letter-spacing: -3px;
-  text-transform: uppercase;
-  margin: 0 0 18px;
-}
-
-.back-link {
-  display: inline-block;
-  margin-bottom: 18px;
-  color: var(--ink);
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.input-row {
-  display: grid;
-  grid-template-columns: 1fr 180px auto;
-  gap: 10px;
-  margin: 18px 0;
-}
-
-.input-row.two {
-  grid-template-columns: 1fr auto;
-}
-
-input,
-select,
-button,
-textarea {
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 13px 16px;
-  font: inherit;
-}
-
-input,
-select,
-textarea {
-  background: var(--cream);
-}
-
-textarea {
-  width: 100%;
-  min-height: 180px;
-  border-radius: 24px;
-  resize: vertical;
-  line-height: 1.5;
-}
-
-.big-textarea {
-  min-height: 260px;
-  margin-bottom: 18px;
-}
-
-button {
-  background: var(--pink);
-  color: white;
-  font-weight: 900;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-button:hover {
-  transform: translatey(-2px);
-  box-shadow: 4px 4px 0 var(--ink);
-}
-
-.cards-list,
-.oracle-grid,
-.journal-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-}
-
-.card {
-  background: rgba(255,255,255,.92);
-  border: 1px solid var(--ink);
-  border-radius: 28px;
-  padding: 20px;
-  box-shadow: 6px 6px 0 var(--turquoise);
-  backdrop-filter: blur(10px);
-}
-
-.card h3 {
-  margin-top: 0;
-  text-transform: uppercase;
-  line-height: .95;
-}
-
-.badge,
-.score-pill {
-  display: inline-block;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 7px 10px;
-  margin: 4px 4px 4px 0;
-  background: var(--cream);
-  font-size: .75rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.delete {
-  background: var(--ink);
-}
-
-.checklist {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 10px;
-  margin: 18px 0;
-}
-
-.checklist label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 12px 14px;
-  background: var(--cream);
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-input[type="checkbox"] {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--pink);
-}
-
-.water-count {
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-/* room specific worlds */
-
-body:not(.world-home) .app {
-  padding-top: 38px;
-}
-
-/* desire lagoon: pink shell beach */
-
-body:has(title)::before {
-  display: none;
-}
-
-.lagoon-room {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,63,164,.22), transparent 28%),
-    radial-gradient(circle at 80% 80%, rgba(85,214,214,.22), transparent 30%),
-    linear-gradient(135deg, #fffaf4, #fff0f8, #dffbff);
-}
-
-.lagoon-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.78), rgba(255,255,255,.9)),
-    radial-gradient(circle at 15% 18%, #ffe6f3 0 10%, transparent 11%),
-    radial-gradient(circle at 80% 22%, #fff1c9 0 11%, transparent 12%),
-    linear-gradient(160deg, #fffaf4, #ffcfe8, #bdf4ff);
-  box-shadow: 8px 8px 0 var(--pink);
-}
-
-.lagoon-room .room::before {
-  background:
-    radial-gradient(circle at 12% 78%, rgba(255,255,255,.8) 0 3%, transparent 4%),
-    radial-gradient(circle at 82% 18%, rgba(255,255,255,.8) 0 4%, transparent 5%),
-    repeating-radial-gradient(circle at bottom left, rgba(255,63,164,.12) 0 8px, transparent 8px 22px);
-}
-
-.lagoon-room .card {
-  box-shadow: 6px 6px 0 var(--pink);
-}
-
-/* proof reef: underwater glow */
-
-.reef-room {
-  background:
-    radial-gradient(circle at top left, rgba(85,214,214,.3), transparent 35%),
-    linear-gradient(180deg, #e9feff, #9deaf4, #55d6d6);
-}
-
-.reef-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.72), rgba(255,255,255,.86)),
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.8) 0 2%, transparent 3%),
-    radial-gradient(circle at 70% 70%, rgba(255,255,255,.8) 0 3%, transparent 4%),
-    linear-gradient(160deg, #dffbff, #bdf4ff, #55d6d6);
-  box-shadow: 8px 8px 0 var(--turquoise);
-}
-
-.reef-room .room::before {
-  background:
-    radial-gradient(circle at 10% 20%, rgba(255,255,255,.65) 0 10px, transparent 11px),
-    radial-gradient(circle at 88% 30%, rgba(255,255,255,.55) 0 16px, transparent 17px),
-    radial-gradient(circle at 55% 88%, rgba(255,255,255,.5) 0 12px, transparent 13px);
-}
-
-.reef-room .card {
-  box-shadow: 6px 6px 0 #1fb7c4;
-}
-
-/* oracle library: shell bookstore */
-
-.library-room {
-  background:
-    radial-gradient(circle at 15% 20%, rgba(255,217,128,.25), transparent 28%),
-    radial-gradient(circle at 85% 75%, rgba(255,63,164,.16), transparent 30%),
-    linear-gradient(135deg, #fffaf4, #fff1c9, #ffe6f3);
-}
-
-.library-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.82), rgba(255,255,255,.92)),
-    repeating-linear-gradient(90deg, rgba(255,217,128,.28) 0 18px, transparent 18px 36px),
-    linear-gradient(135deg, #fffaf4, #fff1c9);
-  box-shadow: 8px 8px 0 var(--gold);
-}
-
-.library-room .card {
-  background:
-    linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.94)),
-    radial-gradient(circle at top right, rgba(255,63,164,.14), transparent 35%);
-  box-shadow: 6px 6px 0 var(--gold);
-}
-
-/* identity island: lush tropical self concept */
-
-.identity-room {
-  background:
-    radial-gradient(circle at top left, rgba(123,219,155,.25), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(85,214,214,.22), transparent 35%),
-    linear-gradient(135deg, #fffaf4, #e8fff1, #dffbff);
-}
-
-.identity-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.78), rgba(255,255,255,.92)),
-    radial-gradient(circle at 18% 25%, rgba(123,219,155,.3), transparent 20%),
-    radial-gradient(circle at 85% 65%, rgba(255,63,164,.12), transparent 25%),
-    linear-gradient(135deg, #e8fff1, #fffaf4);
-  box-shadow: 8px 8px 0 #7bdb9b;
-}
-
-.identity-room .card {
-  box-shadow: 6px 6px 0 #7bdb9b;
-}
-
-/* ritual cave: glowing purple cave */
-
-.ritual-room {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(216,199,255,.35), transparent 32%),
-    radial-gradient(circle at 80% 80%, rgba(255,63,164,.18), transparent 34%),
-    linear-gradient(135deg, #fff0f8, #f4e8ff, #dffbff);
-}
-
-.ritual-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.76), rgba(255,255,255,.9)),
-    radial-gradient(circle at 50% 10%, rgba(216,199,255,.45), transparent 25%),
-    linear-gradient(160deg, #f4e8ff, #fff0f8);
-  box-shadow: 8px 8px 0 var(--purple);
-}
-
-.ritual-room .card,
-.ritual-room .checklist label {
-  box-shadow: 5px 5px 0 var(--purple);
-}
-
-/* future lighthouse: starry soft blue */
-
-.future-room {
-  background:
-    radial-gradient(circle at 15% 15%, rgba(255,217,128,.28), transparent 28%),
-    radial-gradient(circle at 85% 25%, rgba(255,255,255,.8), transparent 18%),
-    linear-gradient(180deg, #eef4ff, #dffbff, #fffaf4);
-}
-
-.future-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,.92)),
-    radial-gradient(circle at 20% 20%, rgba(255,217,128,.6) 0 2px, transparent 3px),
-    radial-gradient(circle at 70% 35%, rgba(255,217,128,.6) 0 2px, transparent 3px),
-    radial-gradient(circle at 50% 80%, rgba(255,255,255,.8), transparent 28%),
-    linear-gradient(135deg, #eef4ff, #fffaf4);
-  box-shadow: 8px 8px 0 #8fb3ff;
-}
-
-.future-room .card {
-  box-shadow: 6px 6px 0 #8fb3ff;
-}
-
-/* abundance garden: flower money greenhouse */
-
-.garden-room {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(123,219,155,.28), transparent 30%),
-    radial-gradient(circle at 80% 80%, rgba(255,63,164,.16), transparent 35%),
-    linear-gradient(135deg, #fffaf4, #fff0f8, #eaffdf);
-}
-
-.garden-room .room {
-  background:
-    linear-gradient(rgba(255,255,255,.78), rgba(255,255,255,.92)),
-    radial-gradient(circle at 15% 25%, rgba(255,63,164,.18), transparent 18%),
-    radial-gradient(circle at 75% 80%, rgba(123,219,155,.3), transparent 28%),
-    linear-gradient(135deg, #eaffdf, #fffaf4);
-  box-shadow: 8px 8px 0 #7bdb9b;
-}
-
-.garden-room .card {
-  box-shadow: 6px 6px 0 #7bdb9b;
-}
-
-/* login */
-
-.login-box {
-  display: grid;
-  gap: 12px;
-  width: min(420px, 100%);
-  margin: 28px auto 0;
-}
-
-.secondary {
-  background: white;
-  color: var(--ink);
-}
-
-.top-bar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-/* responsive */
-
-@media (max-width: 800px) {
-  .input-row,
-  .input-row.two {
-    grid-template-columns: 1fr;
-  }
-
-  .hero,
-  .island-map,
-  .room {
-    border-radius: 28px;
-  }
-
-  .island-map {
-    min-height: 760px;
-  }
-
-  .place {
-    width: 130px;
-  }
-
-  .lagoon { left: 5%; }
-  .reef { right: 5%; }
-  .library { right: 5%; }
-  .garden { left: 5%; }
-  .island { left: 32%; }
-  .cave { left: 34%; }
-
-  .room-title {
-    font-size: clamp(2.3rem, 13vw, 4rem);
-    letter-spacing: -2px;
-  }
-}
