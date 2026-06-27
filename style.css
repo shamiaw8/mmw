@@ -586,6 +586,65 @@ body:has(title)::before {
   justify-content: flex-end;
   margin-bottom: 16px;
 }
+.ocean-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: transform 0.75s ease-in-out;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 40%;
+  background: rgba(85, 214, 214, 0.92);
+  border-radius: 45% 55% 0 0;
+  animation: drift 4s ease-in-out infinite alternate;
+}
+
+.wave-one {
+  bottom: 0;
+  background: #55d6d6;
+}
+
+.wave-two {
+  bottom: 12%;
+  background: rgba(141, 231, 240, 0.9);
+  animation-delay: 0.4s;
+}
+
+.wave-three {
+  bottom: 24%;
+  background: rgba(223, 251, 255, 0.95);
+  animation-delay: 0.8s;
+}
+
+.page-leaving .ocean-transition {
+  transform: translateY(0);
+}
+
+body {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+body.page-loaded {
+  opacity: 1;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(-3%) scaleX(1.02);
+  }
+
+  to {
+    transform: translateX(3%) scaleX(1.08);
+  }
+}
 
 
   }
