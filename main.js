@@ -11,11 +11,22 @@ function updateClock() {
 }
 
 async function startApp() {
-  await requireUser("login.html");
-  setupLogout();
-
-  updateClock();
-  setInterval(updateClock, 1000);
+  try {
+    await requireUser();
+    setupLogout();
+    updateClock();
+    setInterval(updateClock, 1000);
+  } catch (error) {
+    document.body.innerHTML = `
+      <main class="app">
+        <section class="room">
+          <h1 class="room-title">something went sideways</h1>
+          <p>${error.message}</p>
+          <a class="back-link" href="login.html">go to login</a>
+        </section>
+      </main>
+    `;
+  }
 }
 
 startApp();
