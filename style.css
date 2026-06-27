@@ -10,9 +10,6 @@
   --turquoise: #55d6d6;
   --sand: #f7eadc;
   --white: #ffffff;
-  --purple: #d8c7ff;
-  --green: #dff7d8;
-  --gold: #ffd980;
 }
 
 body {
@@ -26,18 +23,19 @@ body {
     linear-gradient(135deg, var(--cream), #fff0f8, var(--aqua));
 }
 
-.app {
+.app-shell {
   width: min(1180px, 92%);
   margin: auto;
   padding: 28px 0 48px;
 }
 
-.hidden {
-  display: none !important;
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .hero,
-.island-map,
 .room {
   border: 1px solid var(--ink);
   border-radius: 38px;
@@ -77,51 +75,17 @@ h1 {
   line-height: 1.5;
 }
 
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-
-.stats div {
-  min-width: 135px;
-  background: var(--cream);
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 12px 18px;
-  box-shadow: 4px 4px 0 var(--pink);
-}
-
-.stats span {
-  display: block;
-  font-weight: 900;
-}
-
-.stats small {
-  text-transform: uppercase;
-  font-size: .65rem;
-}
-
-.top-bar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-.login-box {
-  display: grid;
-  gap: 12px;
-  width: min(420px, 100%);
-  margin: 28px auto 0;
+.room {
+  margin-top: 28px;
+  padding: 28px;
+  background: rgba(255,255,255,.9);
 }
 
 .island-map {
   position: relative;
   min-height: 650px;
-  margin-top: 28px;
   overflow: hidden;
+  border-radius: 30px;
   background:
     radial-gradient(circle at 50% 42%, var(--sand) 0 18%, transparent 19%),
     radial-gradient(circle at 46% 46%, #ffe5bd 0 23%, transparent 24%),
@@ -133,9 +97,7 @@ h1 {
   position: absolute;
   inset: 18%;
   border-radius: 55% 45% 60% 40%;
-  background:
-    radial-gradient(circle at 30% 30%, #fff7d6, transparent 35%),
-    linear-gradient(135deg, #f7d7a1, #fff1c9);
+  background: linear-gradient(135deg, #f7d7a1, #fff1c9);
   border: 1px solid rgba(23,23,23,.25);
 }
 
@@ -154,7 +116,6 @@ h1 {
   font-weight: 900;
   cursor: pointer;
   box-shadow: 5px 5px 0 var(--pink);
-  transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .place:hover {
@@ -168,5 +129,154 @@ h1 {
   text-align: center;
 }
 
-.lagoon { top: 54%; left: 14%; }
-.reef { top: 55%; right: 14%; }
+.desires { top: 54%; left: 14%; }
+.proof { top: 55%; right: 14%; }
+.oracle { top: 26%; right: 13%; }
+.identity { top: 34%; left: 43%; }
+.ritual { top: 62%; left: 42%; }
+.future { top: 7%; left: 54%; }
+.garden { top: 20%; left: 18%; }
+
+.ocean {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  letter-spacing: 8px;
+  opacity: .7;
+}
+
+.hint {
+  text-align: center;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 180px auto;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.input-row.two {
+  grid-template-columns: 1fr auto;
+}
+
+input,
+select,
+button,
+textarea {
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 13px 16px;
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  background: var(--cream);
+}
+
+button {
+  background: var(--pink);
+  color: white;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.secondary {
+  background: white;
+  color: var(--ink);
+}
+
+.delete {
+  background: var(--ink);
+}
+
+textarea {
+  width: 100%;
+  min-height: 200px;
+  border-radius: 24px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.cards-list,
+.oracle-grid,
+.journal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--ink);
+  border-radius: 28px;
+  padding: 20px;
+  box-shadow: 6px 6px 0 var(--turquoise);
+}
+
+.card h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 7px 10px;
+  margin: 4px 4px 10px 0;
+  background: var(--cream);
+  font-size: .75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.fade-in {
+  animation: fadeIn .28s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 800px) {
+  .input-row,
+  .input-row.two {
+    grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .room {
+    border-radius: 28px;
+  }
+
+  .island-map {
+    min-height: 760px;
+  }
+
+  .place {
+    width: 130px;
+  }
+
+  .desires { left: 5%; }
+  .proof { right: 5%; }
+  .oracle { right: 5%; }
+  .garden { left: 5%; }
+  .identity { left: 32%; }
+  .ritual { left: 34%; }
+}
