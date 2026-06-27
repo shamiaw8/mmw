@@ -7,155 +7,82 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
+  <main class="app">
     <header class="hero">
       <p class="eyebrow">m.w. operating system</p>
       <h1>mermaid manifestation world</h1>
-      <p class="subtitle">build the version of you who already lives in the dream.</p>
+      <p class="subtitle">the cozy operating system for your future self.</p>
 
       <div class="stats">
         <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span id="score">0%</span><small>alignment</small></div>
-        <div><span id="proofCount">0</span><small>proofs logged</small></div>
+        <div><span>v0.1</span><small>island map</small></div>
+        <div><span id="focusRealm">home</span><small>current realm</small></div>
       </div>
     </header>
 
-    <nav class="nav">
-      <button class="tab active" data-tab="home">home</button>
-      <button class="tab" data-tab="identity">identity</button>
-      <button class="tab" data-tab="desires">desires</button>
-      <button class="tab" data-tab="ritual">ritual</button>
-      <button class="tab" data-tab="proof">proof log</button>
-      <button class="tab" data-tab="review">weekly review</button>
-    </nav>
+    <section class="map-wrap">
+      <div class="map">
+        <button class="location lighthouse" data-place="future lighthouse">
+          ⭐
+          <span>future lighthouse</span>
+        </button>
 
-    <main>
-      <section id="home" class="page active">
-        <div class="grid">
-          <article class="card shell-card">
-            <h2>today’s transmission</h2>
-            <p id="transmission">your future self is not far away. she is installed through repetition.</p>
-            <button id="newTransmission">new transmission</button>
-          </article>
+        <button class="location garden" data-place="abundance garden">
+          🌺
+          <span>abundance garden</span>
+        </button>
 
-          <article class="card">
-            <h2>choose your realm</h2>
-            <select id="realm">
-              <option>love</option>
-              <option>money</option>
-              <option>career</option>
-              <option>beauty</option>
-              <option>body</option>
-              <option>confidence</option>
-              <option>creativity</option>
-              <option>peace</option>
-              <option>home</option>
-              <option>social life</option>
-            </select>
-            <p id="realmText">current realm: love</p>
-          </article>
+        <button class="location island" data-place="identity island">
+          🌴
+          <span>identity island</span>
+        </button>
 
-          <article class="card">
-            <h2>alignment checklist</h2>
-            <label>affirm <input type="checkbox" class="align" /></label>
-            <label>script <input type="checkbox" class="align" /></label>
-            <label>embody <input type="checkbox" class="align" /></label>
-            <label>release <input type="checkbox" class="align" /></label>
-            <label>log proof <input type="checkbox" class="align" /></label>
-          </article>
+        <button class="location lagoon" data-place="desire lagoon">
+          🐚
+          <span>desire lagoon</span>
+        </button>
 
-          <article class="card">
-            <h2>ocean note</h2>
-            <textarea id="oceanNote" placeholder="write whatever your future self wants you to remember..."></textarea>
-          </article>
-        </div>
-      </section>
+        <button class="location cave" data-place="ritual cave">
+          🪸
+          <span>ritual cave</span>
+        </button>
 
-      <section id="identity" class="page">
-        <h2 class="page-title">identity builder</h2>
-        <div class="grid">
-          <article class="card">
-            <h2>i am becoming someone who...</h2>
-            <textarea id="identityInput" placeholder="moves differently, thinks differently, receives differently..."></textarea>
-          </article>
+        <button class="location reef" data-place="proof reef">
+          🐠
+          <span>proof reef</span>
+        </button>
 
-          <article class="card">
-            <h2>my new standards</h2>
-            <textarea id="standardsInput" placeholder="what no longer gets access to this version of me?"></textarea>
-          </article>
+        <button class="location library" data-place="oracle library">
+          📖
+          <span>oracle library</span>
+        </button>
 
-          <article class="card">
-            <h2>future self statement</h2>
-            <p id="identityStatement">i am already becoming undeniable.</p>
-            <button id="identityButton">generate statement</button>
-          </article>
-        </div>
-      </section>
+        <button class="location home active" data-place="mermaid home">
+          🧜🏽‍♀️
+          <span>mermaid home</span>
+        </button>
 
-      <section id="desires" class="page">
-        <h2 class="page-title">desire lagoon</h2>
-        <div class="input-row">
-          <input id="desireInput" placeholder="i am manifesting..." />
-          <button id="addDesire">add</button>
-        </div>
-        <div id="desireList" class="list"></div>
-      </section>
+        <div class="waves">🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊</div>
+      </div>
+    </section>
 
-      <section id="ritual" class="page">
-        <h2 class="page-title">daily ritual</h2>
-        <div class="grid">
-          <article class="card">
-            <h2>affirm</h2>
-            <textarea id="affirmText" placeholder="what is already true?"></textarea>
-          </article>
+    <section class="panel">
+      <p class="panel-kicker">you are here</p>
+      <h2 id="placeTitle">mermaid home</h2>
+      <p id="placeDescription">
+        welcome back to your world. choose a location on the island to enter a different part of your manifestation practice.
+      </p>
 
-          <article class="card">
-            <h2>script</h2>
-            <textarea id="scriptText" placeholder="write from the end..."></textarea>
-          </article>
+      <div class="actions">
+        <button id="dailyOracle">pull daily oracle</button>
+        <button id="resetPlace">return home</button>
+      </div>
 
-          <article class="card">
-            <h2>act</h2>
-            <textarea id="actText" placeholder="what would the aligned version do today?"></textarea>
-          </article>
-
-          <article class="card">
-            <h2>release</h2>
-            <textarea id="releaseText" placeholder="what are you done carrying?"></textarea>
-          </article>
-        </div>
-      </section>
-
-      <section id="proof" class="page">
-        <h2 class="page-title">proof log</h2>
-        <div class="input-row">
-          <input id="proofInput" placeholder="what showed you it’s working?" />
-          <button id="addProof">log</button>
-        </div>
-        <div id="proofList" class="list"></div>
-      </section>
-
-      <section id="review" class="page">
-        <h2 class="page-title">weekly review</h2>
-        <div class="grid">
-          <article class="card">
-            <h2>what became sexier?</h2>
-            <textarea id="sexierText"></textarea>
-          </article>
-
-          <article class="card">
-            <h2>what no longer fits?</h2>
-            <textarea id="fitsText"></textarea>
-          </article>
-
-          <article class="card">
-            <h2>what is inevitable now?</h2>
-            <textarea id="inevitableText"></textarea>
-          </article>
-        </div>
-      </section>
-    </main>
-  </div>
+      <p id="oracleText" class="oracle">
+        today’s tide is waiting.
+      </p>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 </body>
