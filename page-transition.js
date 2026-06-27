@@ -1,4 +1,5 @@
 const transition = document.createElement("div");
+
 transition.className = "ocean-transition";
 transition.innerHTML = `
   <div class="wave wave-one"></div>
