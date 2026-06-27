@@ -5,42 +5,47 @@
 body {
   margin: 0;
   font-family: arial, helvetica, sans-serif;
-  background: #fffaf4;
-  color: #181818;
+  background:
+    radial-gradient(circle at top left, rgba(255, 63, 164, 0.18), transparent 30%),
+    linear-gradient(135deg, #fffaf4, #fff0f8, #e8fbff);
+  color: #171717;
+  min-height: 100vh;
 }
 
-.shell {
+.app {
   width: min(1180px, 92%);
   margin: auto;
-  padding: 36px 0;
+  padding: 34px 0;
 }
 
 .hero {
-  min-height: 46vh;
-  border: 1px solid #181818;
-  border-radius: 36px;
+  min-height: 48vh;
+  border: 1px solid #171717;
+  border-radius: 38px;
   padding: 42px 24px;
   text-align: center;
   background:
-    linear-gradient(rgba(255,250,244,.35), rgba(255,250,244,.72)),
+    linear-gradient(rgba(255, 250, 244, 0.38), rgba(255, 250, 244, 0.78)),
     url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
   background-size: cover;
   background-position: center;
+  box-shadow: 10px 10px 0 #ff3fa4;
 }
 
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 4px;
   color: #ff3fa4;
+  font-size: 0.8rem;
   font-weight: 900;
 }
 
 h1 {
-  font-size: clamp(3rem, 10vw, 7rem);
-  line-height: .85;
-  margin: 12px 0;
-  letter-spacing: -5px;
+  font-size: clamp(3.3rem, 11vw, 8rem);
+  line-height: 0.78;
+  letter-spacing: -6px;
   text-transform: uppercase;
+  margin: 14px 0;
 }
 
 .subtitle {
@@ -49,38 +54,38 @@ h1 {
   font-size: 1.1rem;
 }
 
-.top-stats {
+.stats {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
   margin-top: 28px;
 }
 
-.top-stats div {
-  background: white;
-  border: 1px solid #181818;
+.stats div {
+  min-width: 135px;
+  background: #fffaf4;
+  border: 1px solid #171717;
   border-radius: 999px;
   padding: 12px 18px;
-  min-width: 130px;
   box-shadow: 4px 4px 0 #ff3fa4;
 }
 
-.top-stats span {
+.stats span {
   display: block;
   font-weight: 900;
 }
 
-.top-stats small {
+.stats small {
   text-transform: uppercase;
-  font-size: .65rem;
+  font-size: 0.65rem;
 }
 
-.tabs {
+.nav {
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  margin: 22px 0;
+  margin: 24px 0;
   padding-bottom: 8px;
 }
 
@@ -93,11 +98,11 @@ textarea {
 
 button,
 select {
-  border: 1px solid #181818;
+  border: 1px solid #171717;
   border-radius: 999px;
   padding: 13px 16px;
   font-weight: 900;
-  background: #fffaf4;
+  background: white;
   cursor: pointer;
 }
 
@@ -109,17 +114,17 @@ button {
 
 button:hover {
   transform: translatey(-2px);
-  box-shadow: 4px 4px 0 #181818;
+  box-shadow: 4px 4px 0 #171717;
 }
 
 .tab {
   white-space: nowrap;
-  color: #181818;
+  color: #171717;
   background: white;
 }
 
 .tab.active {
-  background: #181818;
+  background: #171717;
   color: white;
 }
 
@@ -131,42 +136,46 @@ button:hover {
   display: block;
 }
 
+.page-title,
+.card h2 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 0.9;
+}
+
+.page-title {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+}
+
+.card h2 {
+  font-size: 2rem;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 18px;
 }
 
 .card {
   background: white;
-  border: 1px solid #181818;
-  border-radius: 28px;
+  border: 1px solid #171717;
+  border-radius: 30px;
   padding: 24px;
-  min-height: 250px;
+  min-height: 260px;
   box-shadow: 8px 8px 0 #ff3fa4;
 }
 
-.card.big {
-  grid-column: span 2;
-}
-
-.card h2,
-.page-title {
-  margin-top: 0;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  font-size: 2rem;
-  line-height: .9;
-}
-
-.tiger {
+.shell-card {
   background:
-    linear-gradient(rgba(255,255,255,.84), rgba(255,255,255,.84)),
-    repeating-linear-gradient(
-      45deg,
-      #5b341d 0 12px,
-      #181818 12px 20px,
-      #b26b35 20px 32px
+    linear-gradient(rgba(255,255,255,0.84), rgba(255,255,255,0.84)),
+    repeating-radial-gradient(
+      circle at top left,
+      #ffe6f3 0,
+      #ffe6f3 8px,
+      #ffffff 8px,
+      #ffffff 18px
     );
 }
 
@@ -175,7 +184,7 @@ label {
   justify-content: space-between;
   margin: 12px 0;
   text-transform: uppercase;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 input[type="checkbox"] {
@@ -186,15 +195,15 @@ input[type="checkbox"] {
 input,
 textarea {
   width: 100%;
-  border: 1px solid #181818;
-  border-radius: 20px;
+  border: 1px solid #171717;
+  border-radius: 22px;
   padding: 14px;
   margin: 8px 0;
   background: #fffaf4;
 }
 
 textarea {
-  min-height: 150px;
+  min-height: 160px;
   resize: vertical;
 }
 
@@ -212,73 +221,35 @@ textarea {
 
 .list-item {
   background: white;
-  border: 1px solid #181818;
-  border-radius: 22px;
+  border: 1px solid #171717;
+  border-radius: 24px;
   padding: 16px;
   box-shadow: 4px 4px 0 #ff3fa4;
+  display: grid;
+  gap: 10px;
+}
+
+.list-top {
   display: flex;
   justify-content: space-between;
   gap: 12px;
 }
 
-.list-item.done {
-  opacity: .55;
-  text-decoration: line-through;
+.badge {
+  display: inline-block;
+  border: 1px solid #171717;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #fffaf4;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .delete {
-  background: #181818;
+  width: fit-content;
+  background: #171717;
   color: white;
-  width: auto;
-}
-
-.magazine-cover {
-  min-height: 520px;
-  border: 1px solid #181818;
-  border-radius: 36px;
-  padding: 34px;
-  background: #ff3fa4;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.magazine-cover h2 {
-  font-size: clamp(4rem, 14vw, 10rem);
-  line-height: .75;
-  text-transform: uppercase;
-  letter-spacing: -6px;
-  margin: 0;
-}
-
-.magazine-cover button {
-  background: white;
-  color: #181818;
-}
-
-body.ibiza {
-  background: #fffaf4;
-}
-
-body.monaco {
-  background: #f7efe1;
-}
-
-body.miami {
-  background: #fff0f7;
-}
-
-body.football-sunday {
-  background: #f5efe6;
-}
-
-body.italian-summer {
-  background: #fff8dc;
-}
-
-body.aspen {
-  background: #f4fbff;
 }
 
 ::selection {
@@ -286,16 +257,12 @@ body.aspen {
   color: white;
 }
 
-@media (max-width: 700px) {
-  .card.big {
-    grid-column: span 1;
+@media (max-width: 720px) {
+  h1 {
+    letter-spacing: -3px;
   }
 
   .input-row {
     grid-template-columns: 1fr;
-  }
-
-  h1 {
-    letter-spacing: -3px;
   }
 }
