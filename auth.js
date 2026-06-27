@@ -13,25 +13,27 @@ const signupBtn = document.getElementById("signupBtn");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    window.location.href = "index.html";
+    window.location.href = "./index.html";
   }
 });
 
 loginBtn.addEventListener("click", async () => {
+  message.textContent = "signing in...";
+
   try {
-    message.textContent = "signing in...";
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    window.location.href = "index.html";
+    window.location.href = "./index.html";
   } catch (error) {
     message.textContent = error.message;
   }
 });
 
 signupBtn.addEventListener("click", async () => {
+  message.textContent = "creating account...";
+
   try {
-    message.textContent = "creating account...";
     await createUserWithEmailAndPassword(auth, email.value, password.value);
-    window.location.href = "index.html";
+    window.location.href = "./index.html";
   } catch (error) {
     message.textContent = error.message;
   }
