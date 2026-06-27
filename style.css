@@ -10,9 +10,10 @@
   --turquoise: #55d6d6;
   --sand: #f7eadc;
   --white: #ffffff;
-  --lavender: #f4e8ff;
-  --green: #e8fff1;
-  --gold: #fff1c9;
+  --purple: #d8c7ff;
+  --green: #dff7d8;
+  --gold: #ffd980;
+  --coral: #ff9c8a;
 }
 
 body {
@@ -24,34 +25,6 @@ body {
     radial-gradient(circle at top left, rgba(255, 63, 164, 0.16), transparent 30%),
     radial-gradient(circle at bottom right, rgba(85, 214, 214, 0.22), transparent 35%),
     linear-gradient(135deg, var(--cream), #fff0f8, var(--aqua));
-}
-
-body.desire-room {
-  background: linear-gradient(135deg, #fffaf4, #fff0f8, #c9f8ff);
-}
-
-body.proof-room {
-  background: linear-gradient(135deg, #dffbff, #bdf4ff, #fffaf4);
-}
-
-body.oracle-room {
-  background: linear-gradient(135deg, #fffaf4, #f4e8ff, #fff0f8);
-}
-
-body.identity-room {
-  background: linear-gradient(135deg, #fffaf4, #e8fff1, #dffbff);
-}
-
-body.ritual-room {
-  background: linear-gradient(135deg, #fff0f8, #f4e8ff, #dffbff);
-}
-
-body.future-room {
-  background: linear-gradient(135deg, #fffaf4, #eef4ff, #dffbff);
-}
-
-body.abundance-room {
-  background: linear-gradient(135deg, #fffaf4, #fff0f8, #eaffdf);
 }
 
 .app {
@@ -128,27 +101,6 @@ h1 {
   font-size: .65rem;
 }
 
-.view {
-  display: none;
-}
-
-.active-view {
-  display: block;
-  animation: fadeIn .28s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .island-map {
   position: relative;
   min-height: 650px;
@@ -165,7 +117,9 @@ h1 {
   position: absolute;
   inset: 18%;
   border-radius: 55% 45% 60% 40%;
-  background: linear-gradient(135deg, #f7d7a1, #fff1c9);
+  background:
+    radial-gradient(circle at 30% 30%, #fff7d6, transparent 35%),
+    linear-gradient(135deg, #f7d7a1, #fff1c9);
   border: 1px solid rgba(23,23,23,.25);
 }
 
@@ -185,10 +139,11 @@ h1 {
   font-weight: 900;
   cursor: pointer;
   box-shadow: 5px 5px 0 var(--pink);
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .place:hover {
-  transform: translateY(-4px);
+  transform: translatey(-4px);
   box-shadow: 7px 7px 0 var(--ink);
 }
 
@@ -222,15 +177,28 @@ h1 {
   text-transform: uppercase;
 }
 
-.back-button {
-  margin: 28px 0 16px;
-  background: var(--white);
-  color: var(--ink);
-}
+/* shared room layout */
 
 .room {
+  position: relative;
+  overflow: hidden;
+  margin-top: 28px;
   padding: 28px;
   background: rgba(255,255,255,.9);
+}
+
+.room::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .55;
+  z-index: 0;
+}
+
+.room > * {
+  position: relative;
+  z-index: 1;
 }
 
 .room-title {
@@ -241,10 +209,12 @@ h1 {
   margin: 0 0 18px;
 }
 
-.room-intro {
-  max-width: 760px;
-  line-height: 1.5;
-  font-weight: 700;
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--ink);
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .input-row {
@@ -296,7 +266,7 @@ button {
 }
 
 button:hover {
-  transform: translateY(-2px);
+  transform: translatey(-2px);
   box-shadow: 4px 4px 0 var(--ink);
 }
 
@@ -309,27 +279,18 @@ button:hover {
 }
 
 .card {
-  background: white;
+  background: rgba(255,255,255,.92);
   border: 1px solid var(--ink);
   border-radius: 28px;
   padding: 20px;
   box-shadow: 6px 6px 0 var(--turquoise);
+  backdrop-filter: blur(10px);
 }
 
 .card h3 {
   margin-top: 0;
   text-transform: uppercase;
   line-height: .95;
-}
-
-.oracle-card {
-  min-height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background:
-    linear-gradient(rgba(255,255,255,.92), rgba(255,255,255,.92)),
-    repeating-radial-gradient(circle at top left, #ffe6f3 0, #ffe6f3 8px, white 8px, white 18px);
 }
 
 .badge,
@@ -380,18 +341,198 @@ input[type="checkbox"] {
   text-transform: uppercase;
 }
 
-.empty {
-  background: var(--cream);
-  border: 1px dashed var(--ink);
-  border-radius: 28px;
-  padding: 20px;
-  font-weight: 900;
+/* room specific worlds */
+
+body:not(.world-home) .app {
+  padding-top: 38px;
 }
+
+/* desire lagoon: pink shell beach */
+
+body:has(title)::before {
+  display: none;
+}
+
+.lagoon-room {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,63,164,.22), transparent 28%),
+    radial-gradient(circle at 80% 80%, rgba(85,214,214,.22), transparent 30%),
+    linear-gradient(135deg, #fffaf4, #fff0f8, #dffbff);
+}
+
+.lagoon-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.78), rgba(255,255,255,.9)),
+    radial-gradient(circle at 15% 18%, #ffe6f3 0 10%, transparent 11%),
+    radial-gradient(circle at 80% 22%, #fff1c9 0 11%, transparent 12%),
+    linear-gradient(160deg, #fffaf4, #ffcfe8, #bdf4ff);
+  box-shadow: 8px 8px 0 var(--pink);
+}
+
+.lagoon-room .room::before {
+  background:
+    radial-gradient(circle at 12% 78%, rgba(255,255,255,.8) 0 3%, transparent 4%),
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,.8) 0 4%, transparent 5%),
+    repeating-radial-gradient(circle at bottom left, rgba(255,63,164,.12) 0 8px, transparent 8px 22px);
+}
+
+.lagoon-room .card {
+  box-shadow: 6px 6px 0 var(--pink);
+}
+
+/* proof reef: underwater glow */
+
+.reef-room {
+  background:
+    radial-gradient(circle at top left, rgba(85,214,214,.3), transparent 35%),
+    linear-gradient(180deg, #e9feff, #9deaf4, #55d6d6);
+}
+
+.reef-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.72), rgba(255,255,255,.86)),
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.8) 0 2%, transparent 3%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,.8) 0 3%, transparent 4%),
+    linear-gradient(160deg, #dffbff, #bdf4ff, #55d6d6);
+  box-shadow: 8px 8px 0 var(--turquoise);
+}
+
+.reef-room .room::before {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,.65) 0 10px, transparent 11px),
+    radial-gradient(circle at 88% 30%, rgba(255,255,255,.55) 0 16px, transparent 17px),
+    radial-gradient(circle at 55% 88%, rgba(255,255,255,.5) 0 12px, transparent 13px);
+}
+
+.reef-room .card {
+  box-shadow: 6px 6px 0 #1fb7c4;
+}
+
+/* oracle library: shell bookstore */
+
+.library-room {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,217,128,.25), transparent 28%),
+    radial-gradient(circle at 85% 75%, rgba(255,63,164,.16), transparent 30%),
+    linear-gradient(135deg, #fffaf4, #fff1c9, #ffe6f3);
+}
+
+.library-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.82), rgba(255,255,255,.92)),
+    repeating-linear-gradient(90deg, rgba(255,217,128,.28) 0 18px, transparent 18px 36px),
+    linear-gradient(135deg, #fffaf4, #fff1c9);
+  box-shadow: 8px 8px 0 var(--gold);
+}
+
+.library-room .card {
+  background:
+    linear-gradient(rgba(255,255,255,.9), rgba(255,255,255,.94)),
+    radial-gradient(circle at top right, rgba(255,63,164,.14), transparent 35%);
+  box-shadow: 6px 6px 0 var(--gold);
+}
+
+/* identity island: lush tropical self concept */
+
+.identity-room {
+  background:
+    radial-gradient(circle at top left, rgba(123,219,155,.25), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(85,214,214,.22), transparent 35%),
+    linear-gradient(135deg, #fffaf4, #e8fff1, #dffbff);
+}
+
+.identity-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.78), rgba(255,255,255,.92)),
+    radial-gradient(circle at 18% 25%, rgba(123,219,155,.3), transparent 20%),
+    radial-gradient(circle at 85% 65%, rgba(255,63,164,.12), transparent 25%),
+    linear-gradient(135deg, #e8fff1, #fffaf4);
+  box-shadow: 8px 8px 0 #7bdb9b;
+}
+
+.identity-room .card {
+  box-shadow: 6px 6px 0 #7bdb9b;
+}
+
+/* ritual cave: glowing purple cave */
+
+.ritual-room {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(216,199,255,.35), transparent 32%),
+    radial-gradient(circle at 80% 80%, rgba(255,63,164,.18), transparent 34%),
+    linear-gradient(135deg, #fff0f8, #f4e8ff, #dffbff);
+}
+
+.ritual-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.76), rgba(255,255,255,.9)),
+    radial-gradient(circle at 50% 10%, rgba(216,199,255,.45), transparent 25%),
+    linear-gradient(160deg, #f4e8ff, #fff0f8);
+  box-shadow: 8px 8px 0 var(--purple);
+}
+
+.ritual-room .card,
+.ritual-room .checklist label {
+  box-shadow: 5px 5px 0 var(--purple);
+}
+
+/* future lighthouse: starry soft blue */
+
+.future-room {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255,217,128,.28), transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(255,255,255,.8), transparent 18%),
+    linear-gradient(180deg, #eef4ff, #dffbff, #fffaf4);
+}
+
+.future-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,.92)),
+    radial-gradient(circle at 20% 20%, rgba(255,217,128,.6) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 35%, rgba(255,217,128,.6) 0 2px, transparent 3px),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,.8), transparent 28%),
+    linear-gradient(135deg, #eef4ff, #fffaf4);
+  box-shadow: 8px 8px 0 #8fb3ff;
+}
+
+.future-room .card {
+  box-shadow: 6px 6px 0 #8fb3ff;
+}
+
+/* abundance garden: flower money greenhouse */
+
+.garden-room {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(123,219,155,.28), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(255,63,164,.16), transparent 35%),
+    linear-gradient(135deg, #fffaf4, #fff0f8, #eaffdf);
+}
+
+.garden-room .room {
+  background:
+    linear-gradient(rgba(255,255,255,.78), rgba(255,255,255,.92)),
+    radial-gradient(circle at 15% 25%, rgba(255,63,164,.18), transparent 18%),
+    radial-gradient(circle at 75% 80%, rgba(123,219,155,.3), transparent 28%),
+    linear-gradient(135deg, #eaffdf, #fffaf4);
+  box-shadow: 8px 8px 0 #7bdb9b;
+}
+
+.garden-room .card {
+  box-shadow: 6px 6px 0 #7bdb9b;
+}
+
+/* responsive */
 
 @media (max-width: 800px) {
   .input-row,
   .input-row.two {
     grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .island-map,
+  .room {
+    border-radius: 28px;
   }
 
   .island-map {
@@ -410,6 +551,7 @@ input[type="checkbox"] {
   .cave { left: 34%; }
 
   .room-title {
+    font-size: clamp(2.3rem, 13vw, 4rem);
     letter-spacing: -2px;
   }
 }
