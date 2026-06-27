@@ -1,15 +1,25 @@
 import { auth } from "./firebase.js";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const message = document.getElementById("authMessage");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "index.html";
+  }
+});
+
+loginBtn.addEventListener("click", async () => {
   try {
+    message.textContent = "signing in...";
     await signInWithEmailAndPassword(auth, email.value, password.value);
     window.location.href = "index.html";
   } catch (error) {
@@ -17,8 +27,9 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   }
 });
 
-document.getElementById("signupBtn").addEventListener("click", async () => {
+signupBtn.addEventListener("click", async () => {
   try {
+    message.textContent = "creating account...";
     await createUserWithEmailAndPassword(auth, email.value, password.value);
     window.location.href = "index.html";
   } catch (error) {
