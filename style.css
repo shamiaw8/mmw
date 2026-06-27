@@ -521,6 +521,88 @@ body:has(title)::before {
   box-shadow: 6px 6px 0 #7bdb9b;
 }
 
+/* login */
+
+.login-box {
+  display: grid;
+  gap: 12px;
+  width: min(420px, 100%);
+  margin: 28px auto 0;
+}
+
+.secondary {
+  background: white;
+  color: var(--ink);
+}
+
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+/* ocean page transition */
+
+.ocean-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: transform 0.75s ease-in-out;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 40%;
+  border-radius: 45% 55% 0 0;
+  animation: drift 4s ease-in-out infinite alternate;
+}
+
+.wave-one {
+  bottom: 0;
+  background: #55d6d6;
+}
+
+.wave-two {
+  bottom: 12%;
+  background: rgba(141, 231, 240, 0.92);
+  animation-delay: 0.4s;
+}
+
+.wave-three {
+  bottom: 24%;
+  background: rgba(223, 251, 255, 0.96);
+  animation-delay: 0.8s;
+}
+
+.page-leaving .ocean-transition {
+  transform: translateY(0);
+}
+
+body {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+body.page-loaded,
+body.login-page {
+  opacity: 1;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(-3%) scaleX(1.02);
+  }
+
+  to {
+    transform: translateX(3%) scaleX(1.08);
+  }
+}
+
 /* responsive */
 
 @media (max-width: 800px) {
@@ -553,99 +635,5 @@ body:has(title)::before {
   .room-title {
     font-size: clamp(2.3rem, 13vw, 4rem);
     letter-spacing: -2px;
-
-    .room::before {
-  z-index: 0;
-}
-
-.room > * {
-  position: relative;
-  z-index: 2;
-}
-
-.back-link {
-  position: relative;
-  z-index: 999;
-  pointer-events: auto;
-/* ---------- login ---------- */
-
-.login-box {
-  display: grid;
-  gap: 12px;
-  width: min(420px, 100%);
-  margin: 28px auto 0;
-}
-
-.secondary {
-  background: white;
-  color: var(--ink);
-}
-
-.top-bar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-.ocean-transition {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  transform: translateY(100%);
-  transition: transform 0.75s ease-in-out;
-  overflow: hidden;
-}
-
-.wave {
-  position: absolute;
-  left: -10%;
-  width: 120%;
-  height: 40%;
-  background: rgba(85, 214, 214, 0.92);
-  border-radius: 45% 55% 0 0;
-  animation: drift 4s ease-in-out infinite alternate;
-}
-
-.wave-one {
-  bottom: 0;
-  background: #55d6d6;
-}
-
-.wave-two {
-  bottom: 12%;
-  background: rgba(141, 231, 240, 0.9);
-  animation-delay: 0.4s;
-}
-
-.wave-three {
-  bottom: 24%;
-  background: rgba(223, 251, 255, 0.95);
-  animation-delay: 0.8s;
-}
-
-.page-leaving .ocean-transition {
-  transform: translateY(0);
-}
-
-body {
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-
-body.page-loaded {
-  opacity: 1;
-}
-
-@keyframes drift {
-  from {
-    transform: translateX(-3%) scaleX(1.02);
-  }
-
-  to {
-    transform: translateX(3%) scaleX(1.08);
-  }
-}
-
-
   }
 }
