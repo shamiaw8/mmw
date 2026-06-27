@@ -10,6 +10,9 @@
   --turquoise: #55d6d6;
   --sand: #f7eadc;
   --white: #ffffff;
+  --lavender: #f4e8ff;
+  --green: #e8fff1;
+  --gold: #fff1c9;
 }
 
 body {
@@ -21,6 +24,34 @@ body {
     radial-gradient(circle at top left, rgba(255, 63, 164, 0.16), transparent 30%),
     radial-gradient(circle at bottom right, rgba(85, 214, 214, 0.22), transparent 35%),
     linear-gradient(135deg, var(--cream), #fff0f8, var(--aqua));
+}
+
+body.desire-room {
+  background: linear-gradient(135deg, #fffaf4, #fff0f8, #c9f8ff);
+}
+
+body.proof-room {
+  background: linear-gradient(135deg, #dffbff, #bdf4ff, #fffaf4);
+}
+
+body.oracle-room {
+  background: linear-gradient(135deg, #fffaf4, #f4e8ff, #fff0f8);
+}
+
+body.identity-room {
+  background: linear-gradient(135deg, #fffaf4, #e8fff1, #dffbff);
+}
+
+body.ritual-room {
+  background: linear-gradient(135deg, #fff0f8, #f4e8ff, #dffbff);
+}
+
+body.future-room {
+  background: linear-gradient(135deg, #fffaf4, #eef4ff, #dffbff);
+}
+
+body.abundance-room {
+  background: linear-gradient(135deg, #fffaf4, #fff0f8, #eaffdf);
 }
 
 .app {
@@ -97,6 +128,27 @@ h1 {
   font-size: .65rem;
 }
 
+.view {
+  display: none;
+}
+
+.active-view {
+  display: block;
+  animation: fadeIn .28s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .island-map {
   position: relative;
   min-height: 650px;
@@ -170,8 +222,13 @@ h1 {
   text-transform: uppercase;
 }
 
+.back-button {
+  margin: 28px 0 16px;
+  background: var(--white);
+  color: var(--ink);
+}
+
 .room {
-  margin-top: 28px;
   padding: 28px;
   background: rgba(255,255,255,.9);
 }
@@ -184,12 +241,10 @@ h1 {
   margin: 0 0 18px;
 }
 
-.back-link {
-  display: inline-block;
-  margin-bottom: 18px;
-  color: var(--ink);
-  font-weight: 900;
-  text-transform: uppercase;
+.room-intro {
+  max-width: 760px;
+  line-height: 1.5;
+  font-weight: 700;
 }
 
 .input-row {
@@ -267,6 +322,16 @@ button:hover {
   line-height: .95;
 }
 
+.oracle-card {
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    linear-gradient(rgba(255,255,255,.92), rgba(255,255,255,.92)),
+    repeating-radial-gradient(circle at top left, #ffe6f3 0, #ffe6f3 8px, white 8px, white 18px);
+}
+
 .badge,
 .score-pill {
   display: inline-block;
@@ -315,20 +380,12 @@ input[type="checkbox"] {
   text-transform: uppercase;
 }
 
-.identity-room {
-  background: linear-gradient(135deg, #fffaf4, #e8fff1, #dffbff);
-}
-
-.ritual-room {
-  background: linear-gradient(135deg, #fff0f8, #f4e8ff, #dffbff);
-}
-
-.future-room {
-  background: linear-gradient(135deg, #fffaf4, #eef4ff, #dffbff);
-}
-
-.garden-room {
-  background: linear-gradient(135deg, #fffaf4, #fff0f8, #eaffdf);
+.empty {
+  background: var(--cream);
+  border: 1px dashed var(--ink);
+  border-radius: 28px;
+  padding: 20px;
+  font-weight: 900;
 }
 
 @media (max-width: 800px) {
@@ -351,8 +408,8 @@ input[type="checkbox"] {
   .garden { left: 5%; }
   .island { left: 32%; }
   .cave { left: 34%; }
+
+  .room-title {
+    letter-spacing: -2px;
+  }
 }
-
-
-
-
