@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>future lighthouse</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="future-room">
+  <main class="app">
+    <section class="room">
+      <a class="back-link" href="../index.html">← back to island</a>
+      <h1 class="room-title">⭐ future lighthouse</h1>
+      <p>write letters to your future self and save the visions that guide you back to the end.</p>
+
+      <div class="input-row two">
+        <input id="letterTitle" placeholder="letter title..." />
+        <button id="saveLetter">save letter</button>
+      </div>
+
+      <textarea id="letterBody" class="big-textarea" placeholder="dear future me..."></textarea>
+
+      <div id="letterList" class="cards-list"></div>
+    </section>
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    function renderLetters() {
+      const letters = load("letters", []);
+      const list = document.getElementById("letterList");
+      list.innerHTML = "";
+
+      if (!letters.length) {
+        list.innerHTML = `<article class="card">no letters yet. the lighthouse is dramatic but patient.</article>`;
+        return;
+      }
+
+      letters.forEach((letter, index) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${letter.title}</h3>
+          <span class="badge">${letter.date}</span>
+          <p>${letter.body}</p>
+          <button class="delete">delete</button>
+        `;
+
+        card.querySelector(".delete").addEventListener("click", () => {
+          letters.splice(index, 1);
+          save("letters", letters);
+          renderLetters();
+        });
+
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById("saveLetter").addEventListener("click", () => {
+      const title = document.getElementById("letterTitle");
+      const body = document.getElementById("letterBody");
+
+      if (!title.value.trim() || !body.value.trim()) return;
+
+      const letters = load("letters", []);
+      letters.unshift({
+        title: title.value.trim(),
+        body: body.value.trim(),
+        date: new Date().toLocaleDateString()
+      });
+
+      save("letters", letters);
+      title.value = "";
+      body.value = "";
+      renderLetters();
+    });
+
+    renderLetters();
+  </script>
+</body>
+</html>
