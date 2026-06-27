@@ -10,6 +10,7 @@
   --aqua: #dffbff;
   --turquoise: #55d6d6;
   --sand: #f7eadc;
+  --shell: #fff1c9;
   --white: #ffffff;
 }
 
@@ -30,9 +31,15 @@ body {
   padding: 28px 0 48px;
 }
 
-.hero {
+.hero,
+.map-wrap,
+.panel,
+.feature {
   border: 1px solid var(--ink);
   border-radius: 38px;
+}
+
+.hero {
   padding: 34px 24px;
   text-align: center;
   background:
@@ -43,7 +50,9 @@ body {
   box-shadow: 8px 8px 0 var(--pink);
 }
 
-.eyebrow {
+.eyebrow,
+.panel-kicker,
+.section-heading p {
   text-transform: uppercase;
   letter-spacing: 4px;
   color: var(--pink);
@@ -67,7 +76,8 @@ h1 {
   line-height: 1.5;
 }
 
-.stats {
+.stats,
+.mini-stats {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -75,29 +85,31 @@ h1 {
   margin-top: 24px;
 }
 
-.stats div {
+.stats div,
+.mini-stats div {
   min-width: 135px;
   background: var(--cream);
   border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 12px 18px;
   box-shadow: 4px 4px 0 var(--pink);
+  text-align: center;
 }
 
-.stats span {
+.stats span,
+.mini-stats span {
   display: block;
   font-weight: 900;
 }
 
-.stats small {
+.stats small,
+.mini-stats small {
   text-transform: uppercase;
   font-size: 0.65rem;
 }
 
 .map-wrap {
   margin-top: 28px;
-  border: 1px solid var(--ink);
-  border-radius: 38px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow: 8px 8px 0 var(--turquoise);
   padding: 18px;
@@ -157,46 +169,14 @@ h1 {
   line-height: 1.1;
 }
 
-.lighthouse {
-  top: 7%;
-  left: 54%;
-}
-
-.garden {
-  top: 20%;
-  left: 18%;
-}
-
-.island {
-  top: 34%;
-  left: 43%;
-}
-
-.lagoon {
-  top: 55%;
-  left: 15%;
-}
-
-.cave {
-  top: 60%;
-  left: 42%;
-}
-
-.reef {
-  top: 56%;
-  right: 15%;
-}
-
-.library {
-  top: 28%;
-  right: 14%;
-}
-
-.home {
-  bottom: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-}
+.lighthouse { top: 7%; left: 54%; }
+.garden { top: 20%; left: 18%; }
+.island { top: 34%; left: 43%; }
+.lagoon { top: 55%; left: 15%; }
+.cave { top: 60%; left: 42%; }
+.reef { top: 56%; right: 15%; }
+.library { top: 28%; right: 14%; }
+.home { bottom: 8%; left: 50%; transform: translateX(-50%); }
 
 .home:hover,
 .home.active {
@@ -215,25 +195,16 @@ h1 {
   opacity: 0.7;
 }
 
-.panel {
+.panel,
+.feature {
   margin-top: 24px;
-  background: var(--white);
-  border: 1px solid var(--ink);
-  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.88);
   padding: 28px;
   box-shadow: 8px 8px 0 var(--pink);
 }
 
-.panel-kicker {
-  margin: 0 0 6px;
-  text-transform: uppercase;
-  color: var(--pink);
-  font-weight: 900;
-  letter-spacing: 3px;
-  font-size: 0.75rem;
-}
-
-.panel h2 {
+.panel h2,
+.section-heading h2 {
   font-size: clamp(2rem, 6vw, 4.5rem);
   line-height: 0.9;
   letter-spacing: -2px;
@@ -246,23 +217,49 @@ h1 {
   line-height: 1.5;
 }
 
-.actions {
+.actions,
+.input-row {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-top: 18px;
 }
 
-button {
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 180px auto;
+  margin-bottom: 18px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+input,
+select,
+textarea {
   border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 13px 16px;
-  font: inherit;
-  font-weight: 900;
+}
+
+input,
+select,
+textarea {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+button {
   background: var(--pink);
   color: var(--white);
   text-transform: uppercase;
   cursor: pointer;
+  font-weight: 900;
 }
 
 button:hover {
@@ -270,7 +267,8 @@ button:hover {
   box-shadow: 4px 4px 0 var(--ink);
 }
 
-#resetPlace {
+#resetPlace,
+.secondary {
   background: var(--white);
   color: var(--ink);
 }
@@ -284,152 +282,102 @@ button:hover {
   font-weight: 800;
 }
 
-.hidden {
-  display: none;
-}
-
-.feature-section {
-  margin-top: 24px;
-  background: rgba(255, 255, 255, 0.86);
-  border: 1px solid var(--ink);
-  border-radius: 34px;
-  padding: 28px;
-  box-shadow: 8px 8px 0 var(--turquoise);
-}
-
-.section-header h2 {
-  font-size: clamp(2.4rem, 7vw, 5rem);
-  line-height: 0.88;
-  letter-spacing: -3px;
-  text-transform: uppercase;
-  margin: 0 0 12px;
-}
-
-.section-header p {
-  max-width: 760px;
-  line-height: 1.5;
-}
-
-.input-grid {
+.cards-list,
+.oracle-grid {
   display: grid;
-  grid-template-columns: 1fr 180px auto;
-  gap: 10px;
-  margin: 20px 0;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
 }
 
-input,
-select {
-  width: 100%;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 13px 16px;
-  font: inherit;
-  background: var(--cream);
-}
-
-.list {
-  display: grid;
-  gap: 14px;
-}
-
-.list-card {
+.item-card,
+.oracle-card {
   background: var(--white);
   border: 1px solid var(--ink);
-  border-radius: 26px;
-  padding: 18px;
-  box-shadow: 5px 5px 0 var(--pink);
+  border-radius: 28px;
+  padding: 20px;
+  box-shadow: 6px 6px 0 var(--turquoise);
 }
 
-.list-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
+.item-card.pearl {
+  background:
+    radial-gradient(circle at top right, rgba(255, 63, 164, 0.16), transparent 30%),
+    var(--white);
 }
 
-.list-top strong {
-  font-size: 1.1rem;
+.item-card.proof {
+  background:
+    radial-gradient(circle at top right, rgba(85, 214, 214, 0.24), transparent 30%),
+    var(--white);
+}
+
+.item-card h3,
+.oracle-card h3 {
+  text-transform: uppercase;
+  line-height: 0.95;
+  font-size: 1.6rem;
+  margin: 0 0 10px;
 }
 
 .meta-row {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
-  margin: 12px 0;
+  gap: 8px;
+  margin: 14px 0;
 }
 
 .badge {
+  display: inline-block;
   border: 1px solid var(--ink);
   border-radius: 999px;
-  padding: 7px 10px;
-  background: var(--pink-soft);
+  padding: 8px 12px;
+  background: var(--cream);
   font-size: 0.75rem;
   font-weight: 900;
   text-transform: uppercase;
 }
 
-.card-note {
-  width: 100%;
-  min-height: 90px;
-  border: 1px solid var(--ink);
-  border-radius: 18px;
-  padding: 12px;
-  background: var(--cream);
-  resize: vertical;
-  font: inherit;
-}
-
-.mini-actions {
+.card-actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
-.small-btn {
-  padding: 9px 12px;
-  font-size: 0.75rem;
+.card-actions button {
+  padding: 10px 12px;
+  font-size: 0.78rem;
 }
 
-.delete-btn {
+.delete {
   background: var(--ink);
   color: var(--white);
 }
 
 .status-select {
-  margin-top: 8px;
+  width: 100%;
+  margin-top: 10px;
 }
 
-.proof-stats {
+.oracle-card {
+  min-height: 260px;
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 18px 0;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+    repeating-radial-gradient(circle at top left, var(--pink-soft) 0, var(--pink-soft) 8px, white 8px, white 18px);
 }
 
-.proof-stats div {
-  background: var(--cream);
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 12px 18px;
-  box-shadow: 4px 4px 0 var(--pink);
+.oracle-card p {
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
-.proof-stats span {
-  display: block;
-  font-weight: 900;
-}
-
-.proof-stats small {
-  text-transform: uppercase;
-  font-size: 0.65rem;
-}
-
-.empty-state {
+.empty {
   border: 1px dashed var(--ink);
-  border-radius: 26px;
-  padding: 24px;
-  background: rgba(255, 250, 244, 0.7);
+  border-radius: 28px;
+  padding: 22px;
+  background: rgba(255, 250, 244, 0.72);
   font-weight: 800;
 }
 
@@ -444,8 +392,14 @@ select {
     padding-top: 18px;
   }
 
-  .hero {
+  .hero,
+  .map-wrap,
+  .panel,
+  .feature {
     border-radius: 28px;
+  }
+
+  .hero {
     padding: 28px 18px;
   }
 
@@ -467,64 +421,19 @@ select {
     min-height: 82px;
   }
 
-  .lighthouse {
-    top: 4%;
-    left: 52%;
-  }
+  .lighthouse { top: 4%; left: 52%; }
+  .garden { top: 16%; left: 6%; }
+  .library { top: 20%; right: 5%; }
+  .island { top: 36%; left: 31%; }
+  .lagoon { top: 52%; left: 5%; }
+  .cave { top: 56%; left: 34%; }
+  .reef { top: 52%; right: 5%; }
+  .home { bottom: 9%; }
 
-  .garden {
-    top: 16%;
-    left: 6%;
-  }
-
-  .library {
-    top: 20%;
-    right: 5%;
-  }
-
-  .island {
-    top: 36%;
-    left: 31%;
-  }
-
-  .lagoon {
-    top: 52%;
-    left: 5%;
-  }
-
-  .cave {
-    top: 56%;
-    left: 34%;
-  }
-
-  .reef {
-    top: 52%;
-    right: 5%;
-  }
-
-  .home {
-    bottom: 9%;
-  }
-
-  .actions {
+  .actions,
+  .input-row {
     display: grid;
-  }
-
-  .input-grid {
     grid-template-columns: 1fr;
-  }
-
-  .feature-section {
-    padding: 22px;
-    border-radius: 28px;
-  }
-
-  .section-header h2 {
-    letter-spacing: -2px;
-  }
-
-  .list-top {
-    display: grid;
   }
 }
 
