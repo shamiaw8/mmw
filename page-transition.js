@@ -43,3 +43,7 @@ document.querySelectorAll("a").forEach((link) => {
     overlay.classList.add("fill-page");
 
     setTimeout(() => {
+      window.location.href = href;
+    }, 800);
+  });
+});
