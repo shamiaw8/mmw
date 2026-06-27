@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>the inevitability engine</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <p class="eyebrow">ags operating system</p>
+      <h1>the inevitability engine</h1>
+      <p class="subtitle">a command center for the life that is already arranging itself around you.</p>
+      <div class="top-stats">
+        <div><span id="clock">--:--</span><small>local time</small></div>
+        <div><span id="overallScore">0%</span><small>ags score</small></div>
+        <div><span id="streakCount">0</span><small>day streak</small></div>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="dashboard">dashboard</button>
+      <button class="tab" data-tab="missions">missions</button>
+      <button class="tab" data-tab="beauty">beauty lab</button>
+      <button class="tab" data-tab="world">dream world</button>
+      <button class="tab" data-tab="vault">memory vault</button>
+      <button class="tab" data-tab="magazine">ags magazine</button>
+    </nav>
+
+    <main>
+      <section id="dashboard" class="page active">
+        <div class="grid">
+          <article class="card big">
+            <h2>today’s identity</h2>
+            <p id="identityText">i am the version of me who gets what she decides.</p>
+            <button id="identityBtn">generate identity</button>
+          </article>
+
+          <article class="card tiger">
+            <h2>daily ags score</h2>
+            <label>body <input type="checkbox" class="score" /></label>
+            <label>beauty <input type="checkbox" class="score" /></label>
+            <label>money <input type="checkbox" class="score" /></label>
+            <label>writing <input type="checkbox" class="score" /></label>
+            <label>love <input type="checkbox" class="score" /></label>
+            <label>lifestyle <input type="checkbox" class="score" /></label>
+            <p id="scoreText">score: 0 / 6</p>
+          </article>
+
+          <article class="card">
+            <h2>scripting prompt</h2>
+            <p id="promptText">what became more inevitable today?</p>
+            <button id="promptBtn">new prompt</button>
+          </article>
+
+          <article class="card">
+            <h2>desire status</h2>
+            <select id="desireStatus">
+              <option>selected</option>
+              <option>loading</option>
+              <option>already mine</option>
+              <option>materialized</option>
+            </select>
+            <p id="statusText">current state: selected</p>
+          </article>
+
+          <article class="card">
+            <h2>cinematic mode</h2>
+            <select id="cinematicMode">
+              <option>ibiza</option>
+              <option>monaco</option>
+              <option>miami</option>
+              <option>football sunday</option>
+              <option>italian summer</option>
+              <option>aspen</option>
+            </select>
+            <p id="cinematicText">today feels like ibiza.</p>
+          </article>
+
+          <article class="card">
+            <h2>night protocol</h2>
+            <textarea id="nightProtocol" placeholder="3 wins, 1 release, 1 thing already done..."></textarea>
+          </article>
+        </div>
+      </section>
+
+      <section id="missions" class="page">
+        <h2 class="page-title">mission control</h2>
+        <div class="input-row">
+          <input id="missionInput" placeholder="add a mission..." />
+          <button id="addMissionBtn">add</button>
+        </div>
+        <div id="missionList" class="list"></div>
+      </section>
+
+      <section id="beauty" class="page">
+        <h2 class="page-title">beauty lab</h2>
+        <div class="grid">
+          <article class="card">
+            <h2>hair</h2>
+            <input id="hairStyle" placeholder="current style" />
+            <input id="washDay" type="date" />
+            <textarea id="hairNotes" placeholder="growth notes..."></textarea>
+          </article>
+          <article class="card">
+            <h2>skin</h2>
+            <label>tretinoin <input type="checkbox" class="beautyCheck" /></label>
+            <label>clindamycin <input type="checkbox" class="beautyCheck" /></label>
+            <label>hydration <input type="checkbox" class="beautyCheck" /></label>
+            <label>spf <input type="checkbox" class="beautyCheck" /></label>
+          </article>
+          <article class="card">
+            <h2>body</h2>
+            <label>stretch <input type="checkbox" class="beautyCheck" /></label>
+            <label>abs <input type="checkbox" class="beautyCheck" /></label>
+            <label>glutes <input type="checkbox" class="beautyCheck" /></label>
+            <label>walk <input type="checkbox" class="beautyCheck" /></label>
+          </article>
+        </div>
+      </section>
+
+      <section id="world" class="page">
+        <h2 class="page-title">dream world builder</h2>
+        <div class="grid">
+          <input class="worldInput" data-key="scent" placeholder="signature scent" />
+          <input class="worldInput" data-key="home" placeholder="dream home" />
+          <input class="worldInput" data-key="dog" placeholder="dream dog" />
+          <input class="worldInput" data-key="vacation" placeholder="next vacation" />
+          <input class="worldInput" data-key="song" placeholder="theme song" />
+          <input class="worldInput" data-key="restaurant" placeholder="favorite restaurant vibe" />
+        </div>
+      </section>
+
+      <section id="vault" class="page">
+        <h2 class="page-title">memory vault</h2>
+        <div class="input-row">
+          <input id="memoryInput" placeholder="save a tiny beautiful moment..." />
+          <button id="addMemoryBtn">save</button>
+        </div>
+        <div id="memoryList" class="list"></div>
+      </section>
+
+      <section id="magazine" class="page">
+        <h2 class="page-title">ags magazine</h2>
+        <article class="magazine-cover">
+          <p>issue <span id="issueNumber">001</span></p>
+          <h2>always getting sexier</h2>
+          <p id="magazineCopy">this week’s cover story is discipline becoming glamorous again.</p>
+          <button id="magazineBtn">generate cover story</button>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
