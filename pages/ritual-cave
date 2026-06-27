@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ritual cave</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="ritual-room">
+  <main class="app">
+    <section class="room">
+      <a class="back-link" href="../index.html">← back to island</a>
+      <h1 class="room-title">🪸 ritual cave</h1>
+      <p>your daily practice: affirm, script, act, release. mystical, but with tabs open.</p>
+
+      <div class="checklist">
+        <label>affirm <input type="checkbox" class="ritual-check" /></label>
+        <label>script <input type="checkbox" class="ritual-check" /></label>
+        <label>act <input type="checkbox" class="ritual-check" /></label>
+        <label>release <input type="checkbox" class="ritual-check" /></label>
+      </div>
+
+      <p class="score-pill">ritual completion: <span id="ritualScore">0%</span></p>
+
+      <div class="journal-grid">
+        <article class="card">
+          <h3>affirm</h3>
+          <textarea id="affirmText" placeholder="what is already true?"></textarea>
+        </article>
+
+        <article class="card">
+          <h3>script</h3>
+          <textarea id="scriptText" placeholder="write from the end..."></textarea>
+        </article>
+
+        <article class="card">
+          <h3>release</h3>
+          <textarea id="releaseText" placeholder="what are you done carrying?"></textarea>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    const checks = document.querySelectorAll(".ritual-check");
+
+    function updateRitualScore() {
+      const values = [...checks].map((check) => check.checked);
+      const completed = values.filter(Boolean).length;
+      const score = Math.round((completed / values.length) * 100);
+
+      document.getElementById("ritualScore").textContent = `${score}%`;
+      save("ritualChecks", values);
+    }
+
+    const savedChecks = load("ritualChecks", []);
+
+    checks.forEach((check, index) => {
+      check.checked = savedChecks[index] || false;
+      check.addEventListener("change", updateRitualScore);
+    });
+
+    ["affirmText", "scriptText", "releaseText"].forEach((id) => {
+      const element = document.getElementById(id);
+      element.value = load(id, "");
+      element.addEventListener("input", () => save(id, element.value));
+    });
+
+    updateRitualScore();
+  </script>
+</body>
+</html>
 
