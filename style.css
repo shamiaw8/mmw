@@ -35,8 +35,17 @@ body {
 .map-wrap,
 .panel,
 .feature {
+  display: none;
+  margin-top: 24px;
+  padding: 28px;
   border: 1px solid var(--ink);
   border-radius: 38px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 8px 8px 0 var(--pink);
+}
+
+.feature.active-feature {
+  display: block;
 }
 
 .hero {
