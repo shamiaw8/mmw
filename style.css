@@ -541,67 +541,53 @@ body:has(title)::before {
   margin-bottom: 16px;
 }
 
-/* ocean page transition */
-
-.ocean-transition {
+.water-transition {
   position: fixed;
-  inset: 0;
+  left: 0;
+  top: 100vh;
+  width: 100vw;
+  height: 120vh;
   z-index: 9999;
   pointer-events: none;
-  transform: translateY(100%);
-  transition: transform 0.75s ease-in-out;
-  overflow: hidden;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
 }
 
-.wave {
-  position: absolute;
-  left: -10%;
-  width: 120%;
-  height: 40%;
-  border-radius: 45% 55% 0 0;
-  animation: drift 4s ease-in-out infinite alternate;
+.water-wave {
+  width: 100%;
+  height: 130px;
+  order: 1;
+  transform: translateY(5px);
 }
 
-.wave-one {
-  bottom: 0;
-  background: #55d6d6;
+.water-body {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.35), transparent 18%),
+    linear-gradient(180deg, #55d6d6, #2fb8c8);
+  order: 2;
 }
 
-.wave-two {
-  bottom: 12%;
-  background: rgba(141, 231, 240, 0.92);
-  animation-delay: 0.4s;
+.water-transition.fill-page {
+  transform: translateY(-120vh);
 }
 
-.wave-three {
-  bottom: 24%;
-  background: rgba(223, 251, 255, 0.96);
-  animation-delay: 0.8s;
+.water-transition.drain-page {
+  animation: drainWater 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.page-leaving .ocean-transition {
-  transform: translateY(0);
-}
-
-body {
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-
-body.page-loaded,
-body.login-page {
-  opacity: 1;
-}
-
-@keyframes drift {
-  from {
-    transform: translateX(-3%) scaleX(1.02);
+@keyframes drainWater {
+  0% {
+    transform: translateY(-120vh);
   }
 
-  to {
-    transform: translateX(3%) scaleX(1.08);
+  100% {
+    transform: translateY(-240vh);
   }
 }
+
 
 /* responsive */
 
