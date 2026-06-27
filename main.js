@@ -1,48 +1,29 @@
 import { requireUser, setupLogout } from "./auth-guard.js";
+import { db } from "./firebase.js";
+
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const app = document.getElementById("app");
+let currentUser = null;
 
 const rooms = {
-  island: {
-    title: "the inevitability island",
-    emoji: "🏝️",
-    description: "your private operating system for becoming the version of you who already has it."
-  },
-  desires: {
-    title: "desire lagoon",
-    emoji: "🐚",
-    description: "drop each desire like a pearl. track it from chosen to received."
-  },
-  proof: {
-    title: "proof reef",
-    emoji: "🐠",
-    description: "log signs, wins, synchronicities, compliments, and evidence."
-  },
-  identity: {
-    title: "identity island",
-    emoji: "🌴",
-    description: "build the self-concept that makes your dream life feel normal."
-  },
-  ritual: {
-    title: "ritual cave",
-    emoji: "🪸",
-    description: "affirm, script, act, and release."
-  },
-  future: {
-    title: "future lighthouse",
-    emoji: "⭐",
-    description: "write letters to your future self and save long-range visions."
-  },
-  garden: {
-    title: "abundance garden",
-    emoji: "🌺",
-    description: "plant goals and water them with action."
-  },
-  oracle: {
-    title: "oracle library",
-    emoji: "📖",
-    description: "pull cards, prompts, and affirmations."
-  }
+  island: ["🏝️", "the inevitability island", "your private operating system for becoming the version of you who already has it."],
+  desires: ["🐚", "desire lagoon", "drop each desire like a pearl. track it from chosen to received."],
+  proof: ["🐠", "proof reef", "log signs, wins, synchronicities, compliments, and evidence."],
+  identity: ["🌴", "identity island", "build the self-concept that makes your dream life feel normal."],
+  ritual: ["🪸", "ritual cave", "affirm, script, act, and release."],
+  future: ["⭐", "future lighthouse", "write letters to your future self and save long-range visions."],
+  garden: ["🌺", "abundance garden", "plant goals and water them with action."],
+  oracle: ["📖", "oracle library", "pull cards, prompts, and affirmations."]
 };
 
 const roomButtons = [
@@ -55,39 +36,50 @@ const roomButtons = [
   ["oracle", "📖", "oracle library"]
 ];
 
-function save(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function load(key, fallback) {
-  const saved = localStorage.getItem(key);
-  return saved ? JSON.parse(saved) : fallback;
-}
-
-function setRoute(route) {
-  window.location.hash = route;
-  render();
-}
-
 function getRoute() {
   return window.location.hash.replace("#", "") || "island";
 }
 
+function go(route) {
+  window.location.hash = route;
+}
+
+function userCollection(name) {
+  return collection(db, "users", currentUser.uid, name);
+}
+
+async function getUserDocs(name) {
+  const q = query(userCollection(name), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+}
+
+async function addUserDoc(name, data) {
+  await addDoc(userCollection(name), {
+    ...data,
+    createdAt: serverTimestamp()
+  });
+}
+
+async function deleteUserDoc(name, id) {
+  await deleteDoc(doc(db, "users", currentUser.uid, name, id));
+}
+
 function layout(content) {
   const route = getRoute();
-  const room = rooms[route] || rooms.island;
+  const [emoji, title, description] = rooms[route] || rooms.island;
 
   app.innerHTML = `
     <div class="app-shell">
       <div class="top-bar">
-        <button class="secondary" onclick="window.location.hash='island'">home</button>
+        <button id="homeBtn" class="secondary">home</button>
         <button id="logoutBtn" class="secondary">log out</button>
       </div>
 
       <header class="hero">
         <p class="eyebrow">inevitability operating system</p>
-        <h1>${room.emoji} ${room.title}</h1>
-        <p class="subtitle">${room.description}</p>
+        <h1>${emoji} ${title}</h1>
+        <p class="subtitle">${description}</p>
       </header>
 
       <section class="room fade-in">
@@ -96,6 +88,7 @@ function layout(content) {
     </div>
   `;
 
+  document.getElementById("homeBtn").addEventListener("click", () => go("island"));
   setupLogout("logoutBtn", "login.html");
 }
 
@@ -114,13 +107,11 @@ function renderIsland() {
   `);
 
   document.querySelectorAll("[data-route]").forEach((button) => {
-    button.addEventListener("click", () => setRoute(button.dataset.route));
+    button.addEventListener("click", () => go(button.dataset.route));
   });
 }
 
-function renderDesires() {
-  const desires = load("desires", []);
-
+async function renderDesires() {
   layout(`
     <div class="input-row">
       <input id="desireInput" placeholder="add a desire..." />
@@ -134,115 +125,115 @@ function renderDesires() {
       </select>
       <button id="addDesire">add pearl</button>
     </div>
-
-    <div id="desireList" class="cards-list"></div>
+    <div id="desireList" class="cards-list"><article class="card">loading pearls...</article></div>
   `);
 
-  const list = document.getElementById("desireList");
+  async function draw() {
+    const desires = await getUserDocs("desires");
+    const list = document.getElementById("desireList");
 
-  function draw() {
     list.innerHTML = desires.length
-      ? desires.map((desire, index) => `
+      ? desires.map((desire) => `
         <article class="card">
           <h3>🐚 ${desire.text}</h3>
           <span class="badge">${desire.realm}</span>
           <span class="badge">${desire.status}</span>
-          <button data-delete="${index}" class="delete">delete</button>
+          <button data-delete="${desire.id}" class="delete">delete</button>
         </article>
       `).join("")
       : `<article class="card">no pearls yet.</article>`;
 
-    document.querySelectorAll("[data-delete]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        desires.splice(btn.dataset.delete, 1);
-        save("desires", desires);
-        draw();
+    document.querySelectorAll("[data-delete]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        await deleteUserDoc("desires", button.dataset.delete);
+        await draw();
       });
     });
   }
 
-  document.getElementById("addDesire").addEventListener("click", () => {
+  document.getElementById("addDesire").addEventListener("click", async () => {
     const input = document.getElementById("desireInput");
     const realm = document.getElementById("desireRealm");
 
     if (!input.value.trim()) return;
 
-    desires.unshift({
+    await addUserDoc("desires", {
       text: input.value.trim(),
       realm: realm.value,
       status: "chosen"
     });
 
-    save("desires", desires);
     input.value = "";
-    draw();
+    await draw();
   });
 
-  draw();
+  await draw();
 }
 
-function renderProof() {
-  const proofs = load("proofs", []);
-
+async function renderProof() {
   layout(`
     <div class="input-row two">
       <input id="proofInput" placeholder="what showed you it’s working?" />
       <button id="addProof">log proof</button>
     </div>
-
-    <div id="proofList" class="cards-list"></div>
+    <div id="proofList" class="cards-list"><article class="card">loading proof...</article></div>
   `);
 
-  const list = document.getElementById("proofList");
+  async function draw() {
+    const proofs = await getUserDocs("proofs");
+    const list = document.getElementById("proofList");
 
-  function draw() {
     list.innerHTML = proofs.length
-      ? proofs.map((proof, index) => `
+      ? proofs.map((proof) => `
         <article class="card">
           <h3>🐠 proof</h3>
-          <p>${proof}</p>
-          <button data-delete="${index}" class="delete">delete</button>
+          <p>${proof.text}</p>
+          <button data-delete="${proof.id}" class="delete">delete</button>
         </article>
       `).join("")
       : `<article class="card">the reef is waiting for evidence.</article>`;
 
-    document.querySelectorAll("[data-delete]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        proofs.splice(btn.dataset.delete, 1);
-        save("proofs", proofs);
-        draw();
+    document.querySelectorAll("[data-delete]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        await deleteUserDoc("proofs", button.dataset.delete);
+        await draw();
       });
     });
   }
 
-  document.getElementById("addProof").addEventListener("click", () => {
+  document.getElementById("addProof").addEventListener("click", async () => {
     const input = document.getElementById("proofInput");
     if (!input.value.trim()) return;
 
-    proofs.unshift(input.value.trim());
-    save("proofs", proofs);
+    await addUserDoc("proofs", { text: input.value.trim() });
     input.value = "";
-    draw();
+    await draw();
   });
 
-  draw();
+  await draw();
 }
 
-function renderJournalRoom(key, fields) {
+function renderJournalRoom(fields) {
   layout(`
     <div class="journal-grid">
       ${fields.map(([id, title, placeholder]) => `
         <article class="card">
           <h3>${title}</h3>
-          <textarea id="${id}" placeholder="${placeholder}">${load(id, "")}</textarea>
+          <textarea id="${id}" placeholder="${placeholder}"></textarea>
+          <button data-save="${id}">save</button>
         </article>
       `).join("")}
     </div>
   `);
 
   fields.forEach(([id]) => {
-    const element = document.getElementById(id);
-    element.addEventListener("input", () => save(id, element.value));
+    const textarea = document.getElementById(id);
+    const saved = localStorage.getItem(`${currentUser.uid}-${id}`);
+    textarea.value = saved || "";
+
+    document.querySelector(`[data-save="${id}"]`).addEventListener("click", () => {
+      localStorage.setItem(`${currentUser.uid}-${id}`, textarea.value);
+    });
   });
 }
 
@@ -271,27 +262,27 @@ function renderOracle() {
 }
 
 async function render() {
-  await requireUser("login.html");
+  if (!currentUser) currentUser = await requireUser("login.html");
 
   const route = getRoute();
 
   if (route === "island") renderIsland();
-  if (route === "desires") renderDesires();
-  if (route === "proof") renderProof();
-  if (route === "identity") renderJournalRoom("identity", [
+  if (route === "desires") await renderDesires();
+  if (route === "proof") await renderProof();
+  if (route === "identity") renderJournalRoom([
     ["identityText", "i am becoming someone who...", "write your new identity..."],
     ["standardsText", "my standards are...", "what no longer gets access?"],
     ["embodyText", "today i embody...", "how does this version move?"]
   ]);
-  if (route === "ritual") renderJournalRoom("ritual", [
+  if (route === "ritual") renderJournalRoom([
     ["affirmText", "affirm", "what is already true?"],
     ["scriptText", "script", "write from the end..."],
     ["releaseText", "release", "what are you done carrying?"]
   ]);
-  if (route === "future") renderJournalRoom("future", [
+  if (route === "future") renderJournalRoom([
     ["futureLetter", "future self letter", "dear future me..."]
   ]);
-  if (route === "garden") renderJournalRoom("garden", [
+  if (route === "garden") renderJournalRoom([
     ["gardenGoals", "abundance garden", "plant your goals here..."]
   ]);
   if (route === "oracle") renderOracle();
