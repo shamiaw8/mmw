@@ -4,53 +4,39 @@ const $$ = (selector) => document.querySelectorAll(selector);
 const places = {
   "mermaid home": {
     title: "mermaid home",
-    focus: "home",
-    description:
-      "welcome back to your world. this is your soft landing place before choosing where your energy wants to go."
+    description: "welcome back to your world. this is your soft landing place before choosing where your energy wants to go."
   },
   "identity island": {
     title: "identity island",
-    focus: "identity",
-    description:
-      "build the version of you who already has it. this is where your standards, self-concept, and daily embodiment live."
+    description: "build the version of you who already has it. this is where your standards, self-concept, and daily embodiment live."
   },
   "desire lagoon": {
     title: "desire lagoon",
-    focus: "desires",
-    description:
-      "drop every desire here like a pearl. each desire gets a realm, a status, and a future-self note."
+    description: "drop every desire here like a pearl. each pearl gets a realm, status, and its own little glow-up arc."
   },
   "proof reef": {
     title: "proof reef",
-    focus: "proof",
-    description:
-      "collect evidence that your world is responding. small signs, big wins, synchronicities, compliments, opportunities, all of it."
+    description: "collect evidence that your world is responding. small signs, big wins, synchronicities, compliments, opportunities, all of it."
   },
   "ritual cave": {
     title: "ritual cave",
-    focus: "ritual",
-    description:
-      "your daily practice lives here: affirm, script, act, release, and return to the end."
+    description: "your daily practice lives here: affirm, script, act, release, and return to the end. very mystical. very organized."
   },
   "future lighthouse": {
     title: "future lighthouse",
-    focus: "future",
-    description:
-      "write letters to your future self, set long-range visions, and let the lighthouse remind you where you are going."
+    description: "write letters to your future self, set long-range visions, and let the lighthouse remind you where you are going."
   },
   "abundance garden": {
     title: "abundance garden",
-    focus: "abundance",
-    description:
-      "plant money, career, creativity, beauty, love, health, and home goals here. water them with action and attention."
+    description: "plant money, career, creativity, beauty, love, health, and home goals here. water them with action and attention."
   },
   "oracle library": {
     title: "oracle library",
-    focus: "oracle",
-    description:
-      "a library of prompts, transmissions, affirmations, and daily cards for whatever realm you are manifesting."
+    description: "a library of prompts, transmissions, affirmations, and daily cards for whatever realm you are manifesting."
   }
 };
+
+const statuses = ["chosen", "unfolding", "embodied", "received"];
 
 const oracles = [
   "today’s tide says: stop checking. start becoming.",
@@ -63,7 +49,23 @@ const oracles = [
   "your future self is not impressed by fear. she is amused, then she gets dressed."
 ];
 
-const desireStatuses = ["chosen", "unfolding", "embodied", "received"];
+const journalPrompts = [
+  "what would i do today if i fully believed this was already unfolding?",
+  "what evidence did i ignore because it felt too small?",
+  "what part of me is ready to stop auditioning and start receiving?",
+  "how can i make my desired life feel familiar today?",
+  "what would the most relaxed version of me decide next?",
+  "what became sexier in my discipline, standards, or energy this week?"
+];
+
+const affirmations = [
+  "i am safe to receive what i want.",
+  "my desires are allowed to arrive easily.",
+  "i am becoming the natural home for my dream life.",
+  "everything i want recognizes me.",
+  "i do not chase. i embody and receive.",
+  "my future is already responding to who i am becoming."
+];
 
 function save(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
@@ -74,8 +76,8 @@ function load(key, fallback) {
   return saved ? JSON.parse(saved) : fallback;
 }
 
-function todayString() {
-  return new Date().toLocaleDateString();
+function randomFrom(array) {
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 function updateClock() {
@@ -90,104 +92,94 @@ function setPlace(placeName) {
 
   $("#placeTitle").textContent = place.title;
   $("#placeDescription").textContent = place.description;
-  $("#focusRealm").textContent = place.focus;
+  $("#focusRealm").textContent = place.title.split(" ")[0];
 
   $$(".location").forEach((button) => {
     button.classList.toggle("active", button.dataset.place === placeName);
   });
 
-  $("#desireSection").classList.toggle("hidden", placeName !== "desire lagoon");
-  $("#proofSection").classList.toggle("hidden", placeName !== "proof reef");
-
   save("current-place", placeName);
+
+  const sectionMap = {
+    "desire lagoon": "#desireLagoon",
+    "proof reef": "#proofReef",
+    "oracle library": "#oracleLibrary"
+  };
+
+  if (sectionMap[placeName]) {
+    document.querySelector(sectionMap[placeName]).scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
 }
 
 function setupMap() {
   $$(".location").forEach((button) => {
-    button.addEventListener("click", () => {
-      setPlace(button.dataset.place);
-    });
+    button.addEventListener("click", () => setPlace(button.dataset.place));
   });
 
-  $("#resetPlace").addEventListener("click", () => {
-    setPlace("mermaid home");
-  });
+  $("#resetPlace").addEventListener("click", () => setPlace("mermaid home"));
 
   $("#dailyOracle").addEventListener("click", () => {
-    const random = Math.floor(Math.random() * oracles.length);
-    $("#oracleText").textContent = oracles[random];
+    $("#oracleText").textContent = randomFrom(oracles);
   });
 
   setPlace(load("current-place", "mermaid home"));
 }
 
-/* v0.2 desire lagoon */
-
 function renderDesires() {
-  const desires = load("mmw-desires", []);
+  const desires = load("desires", []);
   const list = $("#desireList");
   list.innerHTML = "";
 
+  $("#pearlCount").textContent = desires.length;
+  $("#receivedCount").textContent = desires.filter((desire) => desire.status === "received").length;
+
   if (desires.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        no pearls in the lagoon yet. add your first desire.
-      </div>
-    `;
+    list.innerHTML = `<div class="empty">no pearls yet. add your first desire and let the lagoon get dramatic.</div>`;
     return;
   }
 
   desires.forEach((desire, index) => {
     const card = document.createElement("article");
-    card.className = "list-card";
+    card.className = "item-card pearl";
 
     card.innerHTML = `
-      <div class="list-top">
-        <strong>${desire.text}</strong>
-        <button class="small-btn delete-btn">delete</button>
-      </div>
-
+      <h3>🐚 ${desire.text}</h3>
       <div class="meta-row">
         <span class="badge">${desire.realm}</span>
+        <span class="badge">${desire.status}</span>
         <span class="badge">${desire.date}</span>
       </div>
 
       <select class="status-select">
-        ${desireStatuses
-          .map(
-            (status) =>
-              `<option value="${status}" ${status === desire.status ? "selected" : ""}>${status}</option>`
-          )
-          .join("")}
+        ${statuses.map((status) => `
+          <option ${status === desire.status ? "selected" : ""}>${status}</option>
+        `).join("")}
       </select>
 
-      <textarea class="card-note" placeholder="future-self note...">${desire.note || ""}</textarea>
-
-      <div class="mini-actions">
-        <button class="small-btn received-btn">mark received</button>
+      <div class="card-actions">
+        <button class="secondary embody">embody</button>
+        <button class="delete">delete</button>
       </div>
     `;
 
     card.querySelector(".status-select").addEventListener("change", (event) => {
       desires[index].status = event.target.value;
-      save("mmw-desires", desires);
+      save("desires", desires);
       renderDesires();
     });
 
-    card.querySelector(".card-note").addEventListener("input", (event) => {
-      desires[index].note = event.target.value;
-      save("mmw-desires", desires);
-    });
-
-    card.querySelector(".received-btn").addEventListener("click", () => {
-      desires[index].status = "received";
-      save("mmw-desires", desires);
+    card.querySelector(".embody").addEventListener("click", () => {
+      desires[index].status = "embodied";
+      save("desires", desires);
       renderDesires();
     });
 
-    card.querySelector(".delete-btn").addEventListener("click", () => {
+    card.querySelector(".delete").addEventListener("click", () => {
       desires.splice(index, 1);
-      save("mmw-desires", desires);
+      save("desires", desires);
       renderDesires();
     });
 
@@ -195,25 +187,23 @@ function renderDesires() {
   });
 }
 
-function setupDesireLagoon() {
+function setupDesires() {
   $("#addDesire").addEventListener("click", () => {
     const input = $("#desireInput");
-    const realm = $("#desireRealm").value;
+    const realm = $("#desireRealm");
     const text = input.value.trim();
 
     if (!text) return;
 
-    const desires = load("mmw-desires", []);
-
+    const desires = load("desires", []);
     desires.unshift({
       text,
-      realm,
+      realm: realm.value,
       status: "chosen",
-      date: todayString(),
-      note: ""
+      date: new Date().toLocaleDateString()
     });
 
-    save("mmw-desires", desires);
+    save("desires", desires);
     input.value = "";
     renderDesires();
   });
@@ -221,47 +211,37 @@ function setupDesireLagoon() {
   renderDesires();
 }
 
-/* v0.3 proof reef */
-
 function renderProofs() {
-  const proofs = load("mmw-proofs", []);
+  const proofs = load("proofs", []);
   const list = $("#proofList");
   list.innerHTML = "";
 
-  const today = todayString();
-  const todayProofs = proofs.filter((proof) => proof.date === today);
-
-  $("#proofTotal").textContent = proofs.length;
-  $("#proofToday").textContent = todayProofs.length;
+  $("#proofCount").textContent = proofs.length;
 
   if (proofs.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        proof reef is empty. log the first little wink from reality.
-      </div>
-    `;
+    list.innerHTML = `<div class="empty">no proof yet. the reef is waiting for evidence, even tiny sparkly evidence.</div>`;
     return;
   }
 
   proofs.forEach((proof, index) => {
     const card = document.createElement("article");
-    card.className = "list-card";
+    card.className = "item-card proof";
 
     card.innerHTML = `
-      <div class="list-top">
-        <strong>${proof.text}</strong>
-        <button class="small-btn delete-btn">delete</button>
+      <h3>🐠 ${proof.type}</h3>
+      <p>${proof.text}</p>
+      <div class="meta-row">
+        <span class="badge">${proof.date}</span>
       </div>
 
-      <div class="meta-row">
-        <span class="badge">${proof.category}</span>
-        <span class="badge">${proof.date}</span>
+      <div class="card-actions">
+        <button class="delete">delete</button>
       </div>
     `;
 
-    card.querySelector(".delete-btn").addEventListener("click", () => {
+    card.querySelector(".delete").addEventListener("click", () => {
       proofs.splice(index, 1);
-      save("mmw-proofs", proofs);
+      save("proofs", proofs);
       renderProofs();
     });
 
@@ -269,23 +249,22 @@ function renderProofs() {
   });
 }
 
-function setupProofReef() {
+function setupProofs() {
   $("#addProof").addEventListener("click", () => {
     const input = $("#proofInput");
-    const category = $("#proofCategory").value;
+    const type = $("#proofType");
     const text = input.value.trim();
 
     if (!text) return;
 
-    const proofs = load("mmw-proofs", []);
-
+    const proofs = load("proofs", []);
     proofs.unshift({
       text,
-      category,
-      date: todayString()
+      type: type.value,
+      date: new Date().toLocaleDateString()
     });
 
-    save("mmw-proofs", proofs);
+    save("proofs", proofs);
     input.value = "";
     renderProofs();
   });
@@ -293,9 +272,24 @@ function setupProofReef() {
   renderProofs();
 }
 
+function setupOracleLibrary() {
+  $("#pullDailyCard").addEventListener("click", () => {
+    $("#dailyCard").textContent = randomFrom(oracles);
+  });
+
+  $("#pullPrompt").addEventListener("click", () => {
+    $("#journalPrompt").textContent = randomFrom(journalPrompts);
+  });
+
+  $("#pullAffirmation").addEventListener("click", () => {
+    $("#affirmation").textContent = randomFrom(affirmations);
+  });
+}
+
 updateClock();
 setInterval(updateClock, 1000);
 
 setupMap();
-setupDesireLagoon();
-setupProofReef();
+setupDesires();
+setupProofs();
+setupOracleLibrary();
