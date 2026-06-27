@@ -4,34 +4,50 @@ const $$ = (selector) => document.querySelectorAll(selector);
 const places = {
   "mermaid home": {
     title: "mermaid home",
+    section: "mermaidHome",
+    realm: "home",
     description: "welcome back to your world. this is your soft landing place before choosing where your energy wants to go."
   },
   "identity island": {
     title: "identity island",
-    description: "build the version of you who already has it. this is where your standards, self-concept, and daily embodiment live."
+    section: "mermaidHome",
+    realm: "identity",
+    description: "identity island is coming next. for now, use this as your reminder: the version of you who has it would not beg reality for proof."
   },
   "desire lagoon": {
     title: "desire lagoon",
+    section: "desireLagoon",
+    realm: "desires",
     description: "drop every desire here like a pearl. each pearl gets a realm, status, and its own little glow-up arc."
   },
   "proof reef": {
     title: "proof reef",
+    section: "proofReef",
+    realm: "proof",
     description: "collect evidence that your world is responding. small signs, big wins, synchronicities, compliments, opportunities, all of it."
   },
   "ritual cave": {
     title: "ritual cave",
-    description: "your daily practice lives here: affirm, script, act, release, and return to the end. very mystical. very organized."
+    section: "mermaidHome",
+    realm: "ritual",
+    description: "ritual cave is coming soon. eventually this will hold affirming, scripting, action, and release."
   },
   "future lighthouse": {
     title: "future lighthouse",
-    description: "write letters to your future self, set long-range visions, and let the lighthouse remind you where you are going."
+    section: "mermaidHome",
+    realm: "future",
+    description: "future lighthouse is coming soon. this will become letters to your future self, timelines, and locked visions."
   },
   "abundance garden": {
     title: "abundance garden",
-    description: "plant money, career, creativity, beauty, love, health, and home goals here. water them with action and attention."
+    section: "mermaidHome",
+    realm: "abundance",
+    description: "abundance garden is coming soon. this will hold money, career, creativity, beauty, love, health, and home goals."
   },
   "oracle library": {
     title: "oracle library",
+    section: "oracleLibrary",
+    realm: "oracle",
     description: "a library of prompts, transmissions, affirmations, and daily cards for whatever realm you are manifesting."
   }
 };
@@ -87,31 +103,28 @@ function updateClock() {
   });
 }
 
+function showFeature(sectionId) {
+  $$(".feature").forEach((section) => {
+    section.classList.remove("active-feature");
+  });
+
+  const target = document.getElementById(sectionId);
+  if (target) target.classList.add("active-feature");
+}
+
 function setPlace(placeName) {
   const place = places[placeName];
 
   $("#placeTitle").textContent = place.title;
   $("#placeDescription").textContent = place.description;
-  $("#focusRealm").textContent = place.title.split(" ")[0];
+  $("#focusRealm").textContent = place.realm;
 
   $$(".location").forEach((button) => {
     button.classList.toggle("active", button.dataset.place === placeName);
   });
 
+  showFeature(place.section);
   save("current-place", placeName);
-
-  const sectionMap = {
-    "desire lagoon": "#desireLagoon",
-    "proof reef": "#proofReef",
-    "oracle library": "#oracleLibrary"
-  };
-
-  if (sectionMap[placeName]) {
-    document.querySelector(sectionMap[placeName]).scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
 }
 
 function setupMap() {
