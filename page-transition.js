@@ -15,7 +15,15 @@ window.addEventListener("load", () => {
 document.querySelectorAll("a").forEach((link) => {
   const href = link.getAttribute("href");
 
-  if (!href || href.startsWith("#") || href.startsWith("http")) return;
+  if (
+    !href ||
+    href.startsWith("#") ||
+    href.startsWith("http") ||
+    href.includes("login") ||
+    href.includes("auth")
+  ) {
+    return;
+  }
 
   link.addEventListener("click", (event) => {
     event.preventDefault();
