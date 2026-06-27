@@ -6,23 +6,21 @@
   --ink: #171717;
   --cream: #fffaf4;
   --pink: #ff3fa4;
-  --pink-soft: #ffe6f3;
   --aqua: #dffbff;
   --turquoise: #55d6d6;
   --sand: #f7eadc;
-  --shell: #fff1c9;
   --white: #ffffff;
 }
 
 body {
   margin: 0;
   font-family: arial, helvetica, sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
   background:
     radial-gradient(circle at top left, rgba(255, 63, 164, 0.16), transparent 30%),
     radial-gradient(circle at bottom right, rgba(85, 214, 214, 0.22), transparent 35%),
     linear-gradient(135deg, var(--cream), #fff0f8, var(--aqua));
-  color: var(--ink);
-  min-height: 100vh;
 }
 
 .app {
@@ -32,47 +30,35 @@ body {
 }
 
 .hero,
-.map-wrap,
-.panel,
-.feature {
-  display: none;
-  margin-top: 24px;
-  padding: 28px;
+.island-map,
+.room {
   border: 1px solid var(--ink);
   border-radius: 38px;
-  background: rgba(255, 255, 255, 0.9);
   box-shadow: 8px 8px 0 var(--pink);
-}
-
-.feature.active-feature {
-  display: block;
 }
 
 .hero {
   padding: 34px 24px;
   text-align: center;
   background:
-    linear-gradient(rgba(255, 250, 244, 0.36), rgba(255, 250, 244, 0.82)),
+    linear-gradient(rgba(255,250,244,.38), rgba(255,250,244,.82)),
     url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
   background-size: cover;
   background-position: center;
-  box-shadow: 8px 8px 0 var(--pink);
 }
 
-.eyebrow,
-.panel-kicker,
-.section-heading p {
+.eyebrow {
   text-transform: uppercase;
   letter-spacing: 4px;
   color: var(--pink);
-  font-size: 0.78rem;
+  font-size: .78rem;
   font-weight: 900;
   margin: 0;
 }
 
 h1 {
   font-size: clamp(2.7rem, 8vw, 5.8rem);
-  line-height: 0.9;
+  line-height: .9;
   letter-spacing: -3px;
   text-transform: uppercase;
   margin: 16px 0;
@@ -81,12 +67,10 @@ h1 {
 .subtitle {
   max-width: 620px;
   margin: auto;
-  font-size: 1.05rem;
   line-height: 1.5;
 }
 
-.stats,
-.mini-stats {
+.stats {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -94,201 +78,158 @@ h1 {
   margin-top: 24px;
 }
 
-.stats div,
-.mini-stats div {
+.stats div {
   min-width: 135px;
   background: var(--cream);
   border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 12px 18px;
   box-shadow: 4px 4px 0 var(--pink);
-  text-align: center;
 }
 
-.stats span,
-.mini-stats span {
+.stats span {
   display: block;
   font-weight: 900;
 }
 
-.stats small,
-.mini-stats small {
+.stats small {
   text-transform: uppercase;
-  font-size: 0.65rem;
+  font-size: .65rem;
 }
 
-.map-wrap {
-  margin-top: 28px;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 8px 8px 0 var(--turquoise);
-  padding: 18px;
-}
-
-.map {
+.island-map {
   position: relative;
-  min-height: 620px;
-  border-radius: 28px;
+  min-height: 650px;
+  margin-top: 28px;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 42%, var(--sand) 0 18%, transparent 19%),
-    radial-gradient(circle at 46% 46%, #ffe5bd 0 22%, transparent 23%),
+    radial-gradient(circle at 46% 46%, #ffe5bd 0 23%, transparent 24%),
     linear-gradient(180deg, #dffbff, #bdf4ff 55%, #8be7f0);
 }
 
-.map::before {
+.island-map::before {
   content: "";
   position: absolute;
   inset: 18%;
   border-radius: 55% 45% 60% 40%;
-  background:
-    radial-gradient(circle at 30% 30%, #fff2d2, transparent 35%),
-    linear-gradient(135deg, #f7d7a1, #fff1c9);
-  border: 1px solid rgba(23, 23, 23, 0.25);
-  box-shadow: inset 0 0 40px rgba(178, 107, 53, 0.18);
+  background: linear-gradient(135deg, #f7d7a1, #fff1c9);
+  border: 1px solid rgba(23,23,23,.25);
 }
 
-.location {
+.place {
   position: absolute;
   z-index: 2;
   display: grid;
   place-items: center;
   gap: 6px;
-  width: 142px;
+  width: 145px;
   min-height: 92px;
   border: 1px solid var(--ink);
   border-radius: 24px;
-  background: rgba(255, 250, 244, 0.92);
+  background: rgba(255,250,244,.94);
   color: var(--ink);
+  text-decoration: none;
   font-weight: 900;
   cursor: pointer;
   box-shadow: 5px 5px 0 var(--pink);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.location:hover,
-.location.active {
+.place:hover {
   transform: translateY(-4px);
   box-shadow: 7px 7px 0 var(--ink);
-  background: var(--pink-soft);
 }
 
-.location span {
-  font-size: 0.78rem;
+.place span {
   text-transform: uppercase;
-  line-height: 1.1;
+  font-size: .75rem;
+  text-align: center;
 }
 
+.locked {
+  opacity: .6;
+}
+
+.lagoon { top: 54%; left: 14%; }
+.reef { top: 55%; right: 14%; }
+.library { top: 26%; right: 13%; }
+.island { top: 34%; left: 43%; }
+.cave { top: 62%; left: 42%; }
 .lighthouse { top: 7%; left: 54%; }
 .garden { top: 20%; left: 18%; }
-.island { top: 34%; left: 43%; }
-.lagoon { top: 55%; left: 15%; }
-.cave { top: 60%; left: 42%; }
-.reef { top: 56%; right: 15%; }
-.library { top: 28%; right: 14%; }
-.home { bottom: 8%; left: 50%; transform: translateX(-50%); }
 
-.home:hover,
-.home.active {
-  transform: translateX(-50%) translateY(-4px);
-}
-
-.waves {
+.ocean {
   position: absolute;
-  z-index: 1;
-  bottom: 18px;
-  left: 0;
+  bottom: 20px;
   width: 100%;
   text-align: center;
   font-size: clamp(1.5rem, 4vw, 3rem);
   letter-spacing: 8px;
-  opacity: 0.7;
+  opacity: .7;
 }
 
-.panel,
-.feature {
-  margin-top: 24px;
-  background: rgba(255, 255, 255, 0.88);
-  padding: 28px;
-  box-shadow: 8px 8px 0 var(--pink);
-}
-
-.panel h2,
-.section-heading h2 {
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  line-height: 0.9;
-  letter-spacing: -2px;
+.hint {
+  text-align: center;
+  font-weight: 900;
   text-transform: uppercase;
-  margin: 0 0 14px;
 }
 
-.panel p {
-  max-width: 760px;
-  line-height: 1.5;
+/* rooms */
+
+.room {
+  margin-top: 28px;
+  padding: 28px;
+  background: rgba(255,255,255,.9);
 }
 
-.actions,
-.input-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 18px;
+.room-title {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  line-height: .85;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--ink);
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .input-row {
   display: grid;
   grid-template-columns: 1fr 180px auto;
-  margin-bottom: 18px;
+  gap: 10px;
+  margin: 18px 0;
 }
 
-button,
 input,
 select,
-textarea {
-  font: inherit;
-}
-
-button,
-input,
-select,
-textarea {
+button {
   border: 1px solid var(--ink);
   border-radius: 999px;
   padding: 13px 16px;
+  font: inherit;
 }
 
 input,
-select,
-textarea {
+select {
   background: var(--cream);
-  color: var(--ink);
 }
 
 button {
   background: var(--pink);
-  color: var(--white);
+  color: white;
+  font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
-  font-weight: 900;
 }
 
 button:hover {
   transform: translateY(-2px);
   box-shadow: 4px 4px 0 var(--ink);
-}
-
-#resetPlace,
-.secondary {
-  background: var(--white);
-  color: var(--ink);
-}
-
-.oracle {
-  margin-top: 18px;
-  padding: 16px;
-  border: 1px solid var(--ink);
-  border-radius: 24px;
-  background: var(--cream);
-  font-weight: 800;
 }
 
 .cards-list,
@@ -298,156 +239,52 @@ button:hover {
   gap: 18px;
 }
 
-.item-card,
-.oracle-card {
-  background: var(--white);
+.card {
+  background: white;
   border: 1px solid var(--ink);
   border-radius: 28px;
   padding: 20px;
   box-shadow: 6px 6px 0 var(--turquoise);
 }
 
-.item-card.pearl {
-  background:
-    radial-gradient(circle at top right, rgba(255, 63, 164, 0.16), transparent 30%),
-    var(--white);
-}
-
-.item-card.proof {
-  background:
-    radial-gradient(circle at top right, rgba(85, 214, 214, 0.24), transparent 30%),
-    var(--white);
-}
-
-.item-card h3,
-.oracle-card h3 {
+.card h3 {
+  margin-top: 0;
   text-transform: uppercase;
-  line-height: 0.95;
-  font-size: 1.6rem;
-  margin: 0 0 10px;
-}
-
-.meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 14px 0;
 }
 
 .badge {
   display: inline-block;
   border: 1px solid var(--ink);
   border-radius: 999px;
-  padding: 8px 12px;
+  padding: 7px 10px;
+  margin: 4px 4px 4px 0;
   background: var(--cream);
-  font-size: 0.75rem;
+  font-size: .75rem;
   font-weight: 900;
   text-transform: uppercase;
 }
 
-.card-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 14px;
-}
-
-.card-actions button {
-  padding: 10px 12px;
-  font-size: 0.78rem;
-}
-
 .delete {
   background: var(--ink);
-  color: var(--white);
-}
-
-.status-select {
-  width: 100%;
-  margin-top: 10px;
-}
-
-.oracle-card {
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background:
-    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-    repeating-radial-gradient(circle at top left, var(--pink-soft) 0, var(--pink-soft) 8px, white 8px, white 18px);
-}
-
-.oracle-card p {
-  font-size: 1.1rem;
-  line-height: 1.5;
-}
-
-.empty {
-  border: 1px dashed var(--ink);
-  border-radius: 28px;
-  padding: 22px;
-  background: rgba(255, 250, 244, 0.72);
-  font-weight: 800;
-}
-
-::selection {
-  background: var(--pink);
-  color: var(--white);
 }
 
 @media (max-width: 800px) {
-  .app {
-    width: min(100% - 24px, 1180px);
-    padding-top: 18px;
+  .input-row {
+    grid-template-columns: 1fr;
   }
 
-  .hero,
-  .map-wrap,
-  .panel,
-  .feature {
-    border-radius: 28px;
-  }
-
-  .hero {
-    padding: 28px 18px;
-  }
-
-  h1 {
-    font-size: clamp(2.3rem, 13vw, 4rem);
-    letter-spacing: -2px;
-  }
-
-  .map {
+  .island-map {
     min-height: 760px;
   }
 
-  .map::before {
-    inset: 12% 8% 18%;
+  .place {
+    width: 130px;
   }
 
-  .location {
-    width: 132px;
-    min-height: 82px;
-  }
-
-  .lighthouse { top: 4%; left: 52%; }
-  .garden { top: 16%; left: 6%; }
-  .library { top: 20%; right: 5%; }
-  .island { top: 36%; left: 31%; }
-  .lagoon { top: 52%; left: 5%; }
-  .cave { top: 56%; left: 34%; }
-  .reef { top: 52%; right: 5%; }
-  .home { bottom: 9%; }
-
-  .actions,
-  .input-row {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
+  .lagoon { left: 5%; }
+  .reef { right: 5%; }
+  .library { right: 5%; }
+  .garden { left: 5%; }
+  .island { left: 32%; }
+  .cave { left: 34%; }
 }
-
-
-
-
-
-
