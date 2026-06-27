@@ -6,7 +6,7 @@
   <title>mermaid manifestation world</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="world-home">
   <main class="app">
     <header class="hero">
       <p class="eyebrow">m.w. operating system</p>
@@ -15,32 +15,25 @@
 
       <div class="stats">
         <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span id="currentRoom">island</span><small>you are here</small></div>
+        <div><span>island</span><small>you are here</small></div>
       </div>
     </header>
 
-    <section id="islandView" class="view active-view">
-      <div class="island-map">
-        <button class="place lagoon" data-room="desire">🐚<span>desire lagoon</span></button>
-        <button class="place reef" data-room="proof">🐠<span>proof reef</span></button>
-        <button class="place library" data-room="oracle">📖<span>oracle library</span></button>
-        <button class="place island" data-room="identity">🌴<span>identity island</span></button>
-        <button class="place cave" data-room="ritual">🪸<span>ritual cave</span></button>
-        <button class="place lighthouse" data-room="future">⭐<span>future lighthouse</span></button>
-        <button class="place garden" data-room="abundance">🌺<span>abundance garden</span></button>
+    <section class="island-map">
+      <a class="place lagoon" href="pages/desire-lagoon.html">🐚<span>desire lagoon</span></a>
+      <a class="place reef" href="pages/proof-reef.html">🐠<span>proof reef</span></a>
+      <a class="place library" href="pages/oracle-library.html">📖<span>oracle library</span></a>
+      <a class="place island" href="pages/identity-island.html">🌴<span>identity island</span></a>
+      <a class="place cave" href="pages/ritual-cave.html">🪸<span>ritual cave</span></a>
+      <a class="place lighthouse" href="pages/future-lighthouse.html">⭐<span>future lighthouse</span></a>
+      <a class="place garden" href="pages/abundance-garden.html">🌺<span>abundance garden</span></a>
 
-        <div class="ocean">🌊 🌊 🌊 🌊 🌊 🌊 🌊</div>
-      </div>
-
-      <p class="hint">click a location to enter your world.</p>
+      <div class="ocean">🌊 🌊 🌊 🌊 🌊 🌊 🌊</div>
     </section>
 
-    <section id="roomView" class="view">
-      <button id="backToIsland" class="back-button">← back to island</button>
-      <div id="roomContent"></div>
-    </section>
+    <p class="hint">click a location to enter your world.</p>
   </main>
 
-  <script src="app.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
