@@ -1,42 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mermaid manifestation world</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body class="world-home">
-  <main class="app">
-    <div class="top-bar">
-  <button id="logoutBtn" class="secondary">log out</button>
-</div>
-    <header class="hero">
-      <p class="eyebrow">m.w. operating system</p>
-      <h1>mermaid manifestation world</h1>
-      <p class="subtitle">step into the cozy operating system for your future self.</p>
+import { requireUser, setupLogout } from "./auth-guard.js";
 
-      <div class="stats">
-        <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span>island</span><small>you are here</small></div>
-      </div>
-    </header>
+function updateClock() {
+  const clock = document.getElementById("clock");
+  if (!clock) return;
 
-    <section class="island-map">
-      <a class="place lagoon" href="pages/desire-lagoon.html">🐚<span>desire lagoon</span></a>
-      <a class="place reef" href="pages/proof-reef.html">🐠<span>proof reef</span></a>
-      <a class="place library" href="pages/oracle-library.html">📖<span>oracle library</span></a>
-      <a class="place island" href="pages/identity-island.html">🌴<span>identity island</span></a>
-      <a class="place cave" href="pages/ritual-cave.html">🪸<span>ritual cave</span></a>
-      <a class="place lighthouse" href="pages/future-lighthouse.html">⭐<span>future lighthouse</span></a>
-      <a class="place garden" href="pages/abundance-garden.html">🌺<span>abundance garden</span></a>
+  clock.textContent = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
 
-      <div class="ocean">🌊 🌊 🌊 🌊 🌊 🌊 🌊</div>
-    </section>
+await requireUser("login.html");
+setupLogout();
 
-    <p class="hint">click a location to enter your world.</p>
-  </main> 
-<script type="module" src="main.js"></script>
-
-</body>
-</html>
+updateClock();
+setInterval(updateClock, 1000);
