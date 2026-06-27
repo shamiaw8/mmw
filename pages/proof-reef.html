@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>proof reef</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="room">
+      <a class="back-link" href="../index.html">← back to island</a>
+      <h1 class="room-title">🐠 proof reef</h1>
+      <p>log signs, wins, compliments, synchronicities, money, opportunities, and tiny evidence.</p>
+
+      <div class="input-row">
+        <input id="proofInput" placeholder="what showed you it’s working?" />
+        <select id="proofType">
+          <option>sign</option>
+          <option>win</option>
+          <option>synchronicity</option>
+          <option>compliment</option>
+          <option>money</option>
+          <option>opportunity</option>
+        </select>
+        <button id="addProof">log proof</button>
+      </div>
+
+      <div id="proofList" class="cards-list"></div>
+    </section>
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    function save(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function load(key, fallback) {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : fallback;
+    }
+
+    function renderProofs() {
+      const proofs = load("proofs", []);
+      const list = document.getElementById("proofList");
+      list.innerHTML = "";
+
+      if (!proofs.length) {
+        list.innerHTML = `<article class="card">the reef is waiting for its first sparkle.</article>`;
+        return;
+      }
+
+      proofs.forEach((proof, index) => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        card.innerHTML = `
+          <h3>🐠 ${proof.type}</h3>
+          <p>${proof.text}</p>
+          <span class="badge">${proof.date}</span>
+          <button class="delete">delete</button>
+        `;
+
+        card.querySelector(".delete").addEventListener("click", () => {
+          proofs.splice(index, 1);
+          save("proofs", proofs);
+          renderProofs();
+        });
+
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById("addProof").addEventListener("click", () => {
+      const input = document.getElementById("proofInput");
+      const type = document.getElementById("proofType");
+
+      if (!input.value.trim()) return;
+
+      const proofs = load("proofs", []);
+      proofs.unshift({
+        text: input.value.trim(),
+        type: type.value,
+        date: new Date().toLocaleDateString()
+      });
+
+      save("proofs", proofs);
+      input.value = "";
+      renderProofs();
+    });
+
+    renderProofs();
+  </script>
+</body>
+</html>
