@@ -15,7 +15,7 @@ const places = {
   "desire lagoon": {
     title: "desire lagoon",
     description:
-      "drop every desire here like a pearl. later, each desire will get its own vault, status, timeline, and proof log."
+      "drop every desire here like a pearl. each pearl can have a realm, status, and tiny little main-character folder energy."
   },
   "proof reef": {
     title: "proof reef",
@@ -25,7 +25,7 @@ const places = {
   "ritual cave": {
     title: "ritual cave",
     description:
-      "your daily practice lives here: affirm, script, act, release, and return to the end. very mystical. very organized."
+      "your daily practice lives here: affirm, script, act, release, and return to the end."
   },
   "future lighthouse": {
     title: "future lighthouse",
@@ -35,7 +35,7 @@ const places = {
   "abundance garden": {
     title: "abundance garden",
     description:
-      "plant money, career, creativity, beauty, love, health, and home goals here. water them with action and attention."
+      "plant money, career, creativity, beauty, love, health, and home goals here."
   },
   "oracle library": {
     title: "oracle library",
@@ -54,6 +54,8 @@ const oracles = [
   "soft tide: rest is still part of the ritual.",
   "your future self is not impressed by fear. she is amused, then she gets dressed."
 ];
+
+const statuses = ["chosen", "unfolding", "embodied", "received"];
 
 function save(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
@@ -82,6 +84,13 @@ function setPlace(placeName) {
     button.classList.toggle("active", button.dataset.place === placeName);
   });
 
+  const desirePanel = $("#desireLagoonApp");
+  if (placeName === "desire lagoon") {
+    desirePanel.classList.remove("hidden");
+  } else {
+    desirePanel.classList.add("hidden");
+  }
+
   save("current-place", placeName);
 }
 
@@ -104,6 +113,111 @@ function setupMap() {
   setPlace(load("current-place", "mermaid home"));
 }
 
+function getDesires() {
+  return load("mmw-desires", []);
+}
+
+function setDesires(desires) {
+  save("mmw-desires", desires);
+}
+
+function renderDesires() {
+  const desires = getDesires();
+  const list = $("#desireList");
+
+  list.innerHTML = "";
+
+  $("#desireCount").textContent = desires.length;
+  $("#receivedCount").textContent = desires.filter((d) => d.status === "received").length;
+  $("#embodiedCount").textContent = desires.filter((d) => d.status === "embodied").length;
+
+  if (desires.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        no pearls yet. add your first desire and let the lagoon get nosy.
+      </div>
+    `;
+    return;
+  }
+
+  desires.forEach((desire, index) => {
+    const pearl = document.createElement("article");
+    pearl.className = "pearl";
+
+    pearl.innerHTML = `
+      <div class="pearl-top">
+        <div>
+          <div class="pearl-title">🐚 ${desire.text}</div>
+          <div class="pearl-meta">
+            <span class="pearl-badge">realm: ${desire.realm}</span>
+            <span class="pearl-badge">status: ${desire.status}</span>
+            <span class="pearl-badge">added: ${desire.date}</span>
+          </div>
+        </div>
+        <button class="pearl-delete">delete</button>
+      </div>
+
+      <div class="pearl-controls">
+        <select class="status-select">
+          ${statuses
+            .map(
+              (status) =>
+                `<option value="${status}" ${status === desire.status ? "selected" : ""}>${status}</option>`
+            )
+            .join("")}
+        </select>
+      </div>
+    `;
+
+    pearl.querySelector(".status-select").addEventListener("change", (event) => {
+      desires[index].status = event.target.value;
+      setDesires(desires);
+      renderDesires();
+    });
+
+    pearl.querySelector(".pearl-delete").addEventListener("click", () => {
+      desires.splice(index, 1);
+      setDesires(desires);
+      renderDesires();
+    });
+
+    list.appendChild(pearl);
+  });
+}
+
+function setupDesireLagoon() {
+  $("#addDesire").addEventListener("click", () => {
+    const input = $("#desireInput");
+    const realm = $("#desireRealm").value;
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const desires = getDesires();
+
+    desires.unshift({
+      text,
+      realm,
+      status: "chosen",
+      date: new Date().toLocaleDateString()
+    });
+
+    setDesires(desires);
+    input.value = "";
+    renderDesires();
+  });
+
+  $("#desireInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      $("#addDesire").click();
+    }
+  });
+
+  renderDesires();
+}
+
 updateClock();
 setInterval(updateClock, 1000);
+
 setupMap();
+setupDesireLagoon();
