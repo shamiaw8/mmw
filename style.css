@@ -280,3 +280,19 @@ textarea {
   .identity { left: 32%; }
   .ritual { left: 34%; }
 }
+,/* ---------- app ui ---------- */
+
+.save-message {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--pink);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.save-message:not(:empty) {
+  opacity: 1;
+}
