@@ -15,8 +15,8 @@
 
       <div class="stats">
         <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span>v0.4</span><small>oracle library</small></div>
         <div><span id="focusRealm">home</span><small>current realm</small></div>
+        <div><span id="proofCount">0</span><small>proofs logged</small></div>
       </div>
     </header>
 
@@ -49,9 +49,26 @@
       <p id="oracleText" class="oracle">today’s tide is waiting.</p>
     </section>
 
+    <section id="mermaidHome" class="feature active-feature">
+      <div class="section-heading">
+        <h2>mermaid home</h2>
+      </div>
+
+      <div class="oracle-grid">
+        <article class="oracle-card">
+          <h3>daily tide</h3>
+          <p>choose a realm from the island and let today have a little structure, a little sparkle, and zero tragic beige energy.</p>
+        </article>
+
+        <article class="oracle-card">
+          <h3>quick ritual</h3>
+          <p>affirm one thing. script one sentence. log one proof. move like the future already knows your address.</p>
+        </article>
+      </div>
+    </section>
+
     <section id="desireLagoon" class="feature">
       <div class="section-heading">
-        <p>v0.2</p>
         <h2>desire lagoon</h2>
       </div>
 
@@ -70,12 +87,16 @@
         <button id="addDesire">add pearl</button>
       </div>
 
+      <div class="mini-stats">
+        <div><span id="pearlCount">0</span><small>pearls</small></div>
+        <div><span id="receivedCount">0</span><small>received</small></div>
+      </div>
+
       <div id="desireList" class="cards-list"></div>
     </section>
 
     <section id="proofReef" class="feature">
       <div class="section-heading">
-        <p>v0.3</p>
         <h2>proof reef</h2>
       </div>
 
@@ -93,18 +114,11 @@
         <button id="addProof">log proof</button>
       </div>
 
-      <div class="mini-stats">
-        <div><span id="proofCount">0</span><small>proofs</small></div>
-        <div><span id="receivedCount">0</span><small>received desires</small></div>
-        <div><span id="pearlCount">0</span><small>pearls</small></div>
-      </div>
-
       <div id="proofList" class="cards-list"></div>
     </section>
 
     <section id="oracleLibrary" class="feature">
       <div class="section-heading">
-        <p>v0.4</p>
         <h2>oracle library</h2>
       </div>
 
