@@ -1,4 +1,5 @@
 import { auth } from "./firebase.js";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -13,7 +14,7 @@ const signupBtn = document.getElementById("signupBtn");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    window.location.href = "./index.html";
+    window.location.replace("index.html");
   }
 });
 
@@ -22,7 +23,7 @@ loginBtn.addEventListener("click", async () => {
 
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    window.location.href = "./index.html";
+    window.location.replace("index.html");
   } catch (error) {
     message.textContent = error.message;
   }
@@ -33,7 +34,7 @@ signupBtn.addEventListener("click", async () => {
 
   try {
     await createUserWithEmailAndPassword(auth, email.value, password.value);
-    window.location.href = "./index.html";
+    window.location.replace("index.html");
   } catch (error) {
     message.textContent = error.message;
   }
