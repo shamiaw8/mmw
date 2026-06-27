@@ -15,7 +15,7 @@
 
       <div class="stats">
         <div><span id="clock">--:--</span><small>current tide</small></div>
-        <div><span>v0.3</span><small>desires + proof</small></div>
+        <div><span>v0.4</span><small>oracle library</small></div>
         <div><span id="focusRealm">home</span><small>current realm</small></div>
       </div>
     </header>
@@ -49,61 +49,84 @@
       <p id="oracleText" class="oracle">today’s tide is waiting.</p>
     </section>
 
-    <section id="desireSection" class="feature-section hidden">
-      <div class="section-header">
-        <p class="panel-kicker">v0.2</p>
+    <section id="desireLagoon" class="feature">
+      <div class="section-heading">
+        <p>v0.2</p>
         <h2>desire lagoon</h2>
-        <p>drop each desire like a pearl. give it a realm, a status, and a note from the version of you who already has it.</p>
       </div>
 
-      <div class="input-grid">
-        <input id="desireInput" placeholder="i am manifesting..." />
+      <div class="input-row">
+        <input id="desireInput" placeholder="add a desire like a pearl..." />
         <select id="desireRealm">
           <option>love</option>
           <option>money</option>
           <option>career</option>
           <option>beauty</option>
           <option>body</option>
-          <option>confidence</option>
+          <option>home</option>
           <option>creativity</option>
           <option>peace</option>
-          <option>home</option>
         </select>
-        <button id="addDesire">add desire</button>
+        <button id="addDesire">add pearl</button>
       </div>
 
-      <div id="desireList" class="list"></div>
+      <div id="desireList" class="cards-list"></div>
     </section>
 
-    <section id="proofSection" class="feature-section hidden">
-      <div class="section-header">
-        <p class="panel-kicker">v0.3</p>
+    <section id="proofReef" class="feature">
+      <div class="section-heading">
+        <p>v0.3</p>
         <h2>proof reef</h2>
-        <p>log every sign, compliment, coincidence, win, opportunity, and tiny reality wink. receipts, your honor.</p>
       </div>
 
-      <div class="input-grid">
-        <input id="proofInput" placeholder="what showed you it’s working?" />
-        <select id="proofCategory">
+      <div class="input-row">
+        <input id="proofInput" placeholder="log evidence that it’s working..." />
+        <select id="proofType">
           <option>sign</option>
+          <option>win</option>
+          <option>synchronicity</option>
           <option>compliment</option>
           <option>money</option>
-          <option>love</option>
-          <option>career</option>
-          <option>body</option>
-          <option>beauty</option>
-          <option>synchronicity</option>
           <option>opportunity</option>
+          <option>feeling</option>
         </select>
         <button id="addProof">log proof</button>
       </div>
 
-      <div class="proof-stats">
-        <div><span id="proofTotal">0</span><small>proofs logged</small></div>
-        <div><span id="proofToday">0</span><small>today</small></div>
+      <div class="mini-stats">
+        <div><span id="proofCount">0</span><small>proofs</small></div>
+        <div><span id="receivedCount">0</span><small>received desires</small></div>
+        <div><span id="pearlCount">0</span><small>pearls</small></div>
       </div>
 
-      <div id="proofList" class="list"></div>
+      <div id="proofList" class="cards-list"></div>
+    </section>
+
+    <section id="oracleLibrary" class="feature">
+      <div class="section-heading">
+        <p>v0.4</p>
+        <h2>oracle library</h2>
+      </div>
+
+      <div class="oracle-grid">
+        <article class="oracle-card">
+          <h3>daily card</h3>
+          <p id="dailyCard">pull a card for today’s tide.</p>
+          <button id="pullDailyCard">pull card</button>
+        </article>
+
+        <article class="oracle-card">
+          <h3>journal prompt</h3>
+          <p id="journalPrompt">ask the ocean what to write.</p>
+          <button id="pullPrompt">new prompt</button>
+        </article>
+
+        <article class="oracle-card">
+          <h3>affirmation</h3>
+          <p id="affirmation">receive a sentence to repeat.</p>
+          <button id="pullAffirmation">new affirmation</button>
+        </article>
+      </div>
     </section>
   </main>
 
